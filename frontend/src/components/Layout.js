@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Sidebar from '@/components/Sidebar';
 import AIChat from '@/components/AIChat';
 import { Menu, MessageCircle, X } from 'lucide-react';
+import NotificationBell from '@/components/NotificationBell';
 
 export default function Layout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -38,6 +39,11 @@ export default function Layout({ children }) {
           >
             <MessageCircle className="w-5 h-5 text-slate-300" />
           </button>
+        </header>
+
+        {/* Desktop top bar with notifications */}
+        <header className="hidden lg:flex items-center justify-end px-6 py-3 gap-3">
+          <NotificationBell />
         </header>
 
         {/* Page content */}

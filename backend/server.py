@@ -19,6 +19,8 @@ from datetime import datetime, timezone, timedelta
 from pydantic import BaseModel, Field, ConfigDict
 from typing import List, Optional
 from contextlib import asynccontextmanager
+from features import features_router, init_features, ws_manager, price_update_loop, init_storage
+from blockchain import blockchain_router, init_blockchain, seed_blockchain_data
 
 # MongoDB connection
 mongo_url = os.environ['MONGO_URL']
@@ -1099,6 +1101,21 @@ async def get_portfolio(user: dict = Depends(get_current_user)):
 
 # ===== Include Router =====
 app.include_router(api_router)
+app.include_router(features_router)
+app.include_router(blockchain_router)
+
+# WebSocket endpoint (on main app, not router)
+from fastapi import WebSocket, WebSocketDisconnect
+
+@app.websocket("/ws/prices")
+async def websocket_prices(websocket: WebSocket):
+    await ws_manager.connect(websocket)
+    try:
+        while True:
+            data = await websocket.receive_text()
+            # Echo back or handle commands
+    except WebSocketDisconnect:
+        ws_manager.disconnect(websocket)
 
 # CORS
 app.add_middleware(
@@ -1112,6 +1129,15 @@ app.add_middleware(
 @app.on_event("startup")
 async def startup_event():
     await seed_database()
+    init_features(db, get_current_user, require_role)
+    init_blockchain(db, get_current_user, require_role)
+    await seed_blockchain_data()
+    try:
+        init_storage()
+    except Exception as e:
+        logger.warning(f"Storage init: {e}")
+    import asyncio
+    asyncio.create_task(price_update_loop())
 
 @app.on_event("shutdown")
 async def shutdown_db_client():

@@ -266,6 +266,91 @@ class E4NAPITester:
             )
             self.log_result("Admin get reports", success3, error3, response3)
 
+    def test_phase2_features(self):
+        """Test Phase 2 features: Advanced orders, notifications, carbon calculator"""
+        print("\n🚀 Testing Phase 2 Features...")
+        
+        if 'retail' in self.tokens:
+            # Test notifications
+            success, error, response = self.make_request(
+                'GET', '/notifications', user_type='retail'
+            )
+            self.log_result("Get notifications", success, error, response)
+            
+            # Test carbon calculator
+            calc_data = {
+                "electricity_kwh": 1000,
+                "natural_gas_therms": 50,
+                "vehicle_miles": 12000,
+                "flights_hours": 10,
+                "waste_tonnes": 2,
+                "employees": 5,
+                "region": "US"
+            }
+            success2, error2, response2 = self.make_request(
+                'POST', '/carbon-calculator/calculate', calc_data
+            )
+            self.log_result("Carbon calculator", success2, error2, response2)
+            
+            # Test stop-loss order
+            stop_loss_data = {
+                "asset_symbol": "RICE",
+                "quantity": 10,
+                "trigger_price": 0.80,
+                "settlement_token": "USD"
+            }
+            success3, error3, response3 = self.make_request(
+                'POST', '/orders/stop-loss', stop_loss_data, user_type='retail'
+            )
+            self.log_result("Create stop-loss order", success3, error3, response3)
+            
+            # Test KYC status
+            success4, error4, response4 = self.make_request(
+                'GET', '/kyc/status', user_type='retail'
+            )
+            self.log_result("Get KYC status", success4, error4, response4)
+            
+            # Test CSV export
+            success5, error5, response5 = self.make_request(
+                'GET', '/reports/trades/csv', user_type='retail'
+            )
+            self.log_result("Export trades CSV", success5, error5, response5)
+
+    def test_phase4_blockchain(self):
+        """Test Phase 4 features: Blockchain, smart contracts, governance, warehouses"""
+        print("\n⛓️ Testing Phase 4 Blockchain Features...")
+        
+        # Test blockchain stats
+        success, error, response = self.make_request('GET', '/blockchain/stats')
+        self.log_result("Get blockchain stats", success, error, response)
+        
+        # Test blockchain blocks
+        success2, error2, response2 = self.make_request('GET', '/blockchain/blocks')
+        self.log_result("Get blockchain blocks", success2, error2, response2)
+        
+        # Test blockchain transactions
+        success3, error3, response3 = self.make_request('GET', '/blockchain/transactions')
+        self.log_result("Get blockchain transactions", success3, error3, response3)
+        
+        if 'retail' in self.tokens:
+            # Test smart contracts
+            success4, error4, response4 = self.make_request(
+                'GET', '/blockchain/contracts', user_type='retail'
+            )
+            self.log_result("Get smart contracts", success4, error4, response4)
+            
+            # Test contract templates
+            success5, error5, response5 = self.make_request('GET', '/blockchain/contracts/templates')
+            self.log_result("Get contract templates", success5, error5, response5)
+            
+            # Test governance proposals
+            success6, error6, response6 = self.make_request('GET', '/governance/proposals')
+            self.log_result("Get governance proposals", success6, error6, response6)
+            
+            # Test warehouses
+            success7, error7, response7 = self.make_request('GET', '/warehouses')
+            self.log_result("Get warehouses", success7, error7, response7)
+
     def test_trading_endpoints(self):
         """Test trading endpoints"""
         print("\n💹 Testing Trading Endpoints...")
@@ -309,6 +394,8 @@ class E4NAPITester:
         self.test_risk_endpoints()
         self.test_trading_endpoints()
         self.test_admin_endpoints()
+        self.test_phase2_features()
+        self.test_phase4_blockchain()
         
         # Print summary
         print("\n" + "=" * 60)

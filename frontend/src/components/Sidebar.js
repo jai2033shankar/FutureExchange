@@ -3,16 +3,24 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import {
   LayoutDashboard, ArrowLeftRight, Leaf, Wallet, ShieldCheck,
-  TrendingUp, Settings, LogOut, X, Users
+  TrendingUp, Settings, LogOut, X, Users, Blocks, Vote, FileCode,
+  Warehouse, Calculator, FileCheck
 } from 'lucide-react';
 
 const navItems = [
   { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, roles: ['retail', 'institutional', 'regulator'] },
   { path: '/trading', label: 'Trading', icon: ArrowLeftRight, roles: ['retail', 'institutional', 'regulator'] },
   { path: '/carbon-credits', label: 'Carbon Credits', icon: Leaf, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/carbon-calculator', label: 'Carbon Calculator', icon: Calculator, roles: ['retail', 'institutional', 'regulator'] },
   { path: '/portfolio', label: 'Portfolio', icon: Wallet, roles: ['retail', 'institutional', 'regulator'] },
   { path: '/compliance', label: 'Compliance', icon: ShieldCheck, roles: ['retail', 'institutional', 'regulator'] },
   { path: '/predictions', label: 'Predictions', icon: TrendingUp, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/blockchain', label: 'Blockchain', icon: Blocks, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/smart-contracts', label: 'Smart Contracts', icon: FileCode, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/governance', label: 'Governance', icon: Vote, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/warehouses', label: 'Warehouses', icon: Warehouse, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/kyc', label: 'KYC Verification', icon: FileCheck, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/settings', label: 'Settings', icon: Settings, roles: ['retail', 'institutional', 'regulator'] },
   { path: '/admin', label: 'Regulator', icon: Users, roles: ['regulator'] },
 ];
 

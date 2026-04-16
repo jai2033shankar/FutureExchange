@@ -1,6 +1,7 @@
 import "@/App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
+import { I18nProvider } from "@/contexts/I18nContext";
 import { Toaster } from "@/components/ui/sonner";
 import Layout from "@/components/Layout";
 import AuthPage from "@/pages/AuthPage";
@@ -11,6 +12,13 @@ import Portfolio from "@/pages/Portfolio";
 import Compliance from "@/pages/Compliance";
 import AdminDashboard from "@/pages/AdminDashboard";
 import Predictions from "@/pages/Predictions";
+import KYCPage from "@/pages/KYCPage";
+import CarbonCalculator from "@/pages/CarbonCalculator";
+import BlockchainExplorer from "@/pages/BlockchainExplorer";
+import DAOGovernance from "@/pages/DAOGovernance";
+import SmartContracts from "@/pages/SmartContracts";
+import IoTWarehouse from "@/pages/IoTWarehouse";
+import SettingsPage from "@/pages/SettingsPage";
 
 function ProtectedRoute({ children, roles }) {
   const { user, loading } = useAuth();
@@ -50,6 +58,13 @@ function AppRoutes() {
       <Route path="/portfolio" element={<ProtectedRoute><Layout><Portfolio /></Layout></ProtectedRoute>} />
       <Route path="/compliance" element={<ProtectedRoute><Layout><Compliance /></Layout></ProtectedRoute>} />
       <Route path="/predictions" element={<ProtectedRoute><Layout><Predictions /></Layout></ProtectedRoute>} />
+      <Route path="/kyc" element={<ProtectedRoute><Layout><KYCPage /></Layout></ProtectedRoute>} />
+      <Route path="/carbon-calculator" element={<ProtectedRoute><Layout><CarbonCalculator /></Layout></ProtectedRoute>} />
+      <Route path="/blockchain" element={<ProtectedRoute><Layout><BlockchainExplorer /></Layout></ProtectedRoute>} />
+      <Route path="/governance" element={<ProtectedRoute><Layout><DAOGovernance /></Layout></ProtectedRoute>} />
+      <Route path="/smart-contracts" element={<ProtectedRoute><Layout><SmartContracts /></Layout></ProtectedRoute>} />
+      <Route path="/warehouses" element={<ProtectedRoute><Layout><IoTWarehouse /></Layout></ProtectedRoute>} />
+      <Route path="/settings" element={<ProtectedRoute><Layout><SettingsPage /></Layout></ProtectedRoute>} />
       <Route path="/admin" element={<ProtectedRoute roles={["regulator"]}><Layout><AdminDashboard /></Layout></ProtectedRoute>} />
       <Route path="*" element={<Navigate to={user ? "/dashboard" : "/auth"} replace />} />
     </Routes>
@@ -59,10 +74,12 @@ function AppRoutes() {
 function App() {
   return (
     <BrowserRouter>
+      <I18nProvider>
       <AuthProvider>
         <AppRoutes />
         <Toaster position="top-right" theme="dark" richColors />
       </AuthProvider>
+      </I18nProvider>
     </BrowserRouter>
   );
 }
