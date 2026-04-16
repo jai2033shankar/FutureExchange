@@ -1,0 +1,106 @@
+{
+  "project_name": "Future Exchange (E4N)",
+  "theme_and_archetype": {
+    "theme": "dark",
+    "archetype": "5 (Jewel & Luxury) merged with 1 (Organic & Earthy)",
+    "description": "A high-end, sovereign-grade financial dashboard combining deep cinematic luxury with organic sustainability. Uses the 'Crystal' glassmorphism variant to signal transparency and trust in blockchain/carbon credit settlements."
+  },
+  "typography": {
+    "primary_font_headings": "Cabinet Grotesk",
+    "secondary_font_body": "IBM Plex Sans",
+    "rules": {
+      "h1": "text-4xl sm:text-5xl lg:text-6xl tracking-tight font-medium",
+      "h2": "text-2xl sm:text-3xl lg:text-4xl tracking-tight font-medium",
+      "h3": "text-xl sm:text-2xl font-medium",
+      "body": "text-base leading-relaxed text-slate-300",
+      "labels": "text-xs uppercase tracking-[0.2em] font-medium text-slate-400"
+    }
+  },
+  "color_palette": {
+    "background": {
+      "base": "#060B12",
+      "glass": "rgba(255, 255, 255, 0.03)",
+      "glass_hover": "rgba(255, 255, 255, 0.05)",
+      "panel": "#0B111A"
+    },
+    "brand_accents": {
+      "emerald_primary": "#00F298",
+      "emerald_hover": "#059669",
+      "carbon_grey": "#8E9EAD",
+      "midnight_blue": "#14223A"
+    },
+    "text": {
+      "primary": "#FFFFFF",
+      "secondary": "#9BA3AF",
+      "muted": "#64748B",
+      "inverse": "#060B12"
+    },
+    "border": {
+      "glass": "rgba(255, 255, 255, 0.08)",
+      "active": "rgba(0, 242, 152, 0.3)"
+    },
+    "status": {
+      "success": "#00F298",
+      "warning": "#F59E0B",
+      "danger": "#EF4444",
+      "info": "#3B82F6"
+    }
+  },
+  "spacing_and_layout": {
+    "grid_system": "The Control Room Grid (grid-cols-1 md:grid-cols-3 lg:grid-cols-4) with gap-6. Dense data visualization.",
+    "padding": "Generous internal padding for glass cards. Minimum p-6 or p-8 to prevent text from colliding with borders.",
+    "alignment": "Strict mobile-first layout. Text left-aligned for metrics, numbers right-aligned in tables.",
+    "constraints": "Images and decorative elements must not exceed 80vh on mobile."
+  },
+  "surface_strategies": {
+    "glassmorphism": {
+      "class_string": "bg-white/5 backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]",
+      "usage": "Use for main dashboard widgets, sticky headers, and auth modals."
+    },
+    "glassmorphism_active": {
+      "class_string": "bg-white/10 backdrop-blur-3xl border border-emerald-500/30 shadow-[0_0_24px_rgba(0,242,152,0.15)]",
+      "usage": "Use for the selected asset, active trade tab, or focused input form."
+    }
+  },
+  "component_guidelines": {
+    "cards": "Never use solid flat color. Always use glassmorphism class string. No heavy border radius (max rounded-xl).",
+    "buttons": "Primary CTAs (Buy/Sell/Execute) use solid emerald_primary with dark inverse text and subtle glow. Secondary buttons use transparent background with border-white/20 and hover:bg-white/10.",
+    "inputs_and_forms": "Use Shadcn components. Override background to bg-white/5, border-white/10. Focus states must use ring-emerald-500/50.",
+    "tables": "Crucial for order book and settlement engine. Zebra striping should be very subtle (bg-white/[0.02]). Header rows must have a bottom border border-white/10.",
+    "charts": "Use Recharts. Ensure chart grid lines are very faint (stroke='rgba(255,255,255,0.05)'). Use the brand_accents colors for lines and bars."
+  },
+  "motion_and_interactions": {
+    "hover_states": "Cards lift slightly (-translate-y-1) with increased shadow. Buttons transition background and text color explicitly.",
+    "page_load": "Framer Motion staggered children. Fade in and slide up from y: 10 with duration 0.4s ease-out.",
+    "microinteractions": "Data updates in trading dashboard should flash very subtly (green for up, red for down)."
+  },
+  "media_and_assets": {
+    "icons": {
+      "library": "lucide-react",
+      "style": "Clean, thin stroke width (1.5px), usually text-secondary color unless active."
+    },
+    "images": {
+      "auth_background": "https://images.unsplash.com/photo-1762279389042-9439bfb6c155?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2ODl8MHwxfHNlYXJjaHwzfHxhYnN0cmFjdCUyMGdyZWVuJTIwdGVjaHxlbnwwfHx8fDE3NzYzMjA0MjB8MA&ixlib=rb-4.1.0&q=85",
+      "dashboard_hero_abstract": "https://images.unsplash.com/photo-1688141585146-1fb4a1358c87?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzd8MHwxfHNlYXJjaHwyfHxhYnN0cmFjdCUyMGRhcmslMjBnZW9tZXRyaWN8ZW58MHx8fHwxNzc2MzIwNDIwfDA&ixlib=rb-4.1.0&q=85",
+      "compliance_texture_bg": "https://images.unsplash.com/photo-1771338921027-93df60f0ae95?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODh8MHwxfHNlYXJjaHw0fHxmb3Jlc3QlMjBjYW5vcHklMjBkYXJrfGVufDB8fHx8MTc3NjMyMDQxMnww&ixlib=rb-4.1.0&q=85",
+      "user_avatars": [
+        "https://images.unsplash.com/photo-1762522926157-bcc04bf0b10a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBoZWFkc2hvdCUyMHBvcnRyYWl0fGVufDB8fHx8MTc3NjMyMDQxMnww&ixlib=rb-4.1.0&q=85",
+        "https://images.unsplash.com/photo-1769636929388-99eff95d3bf1?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHwyfHxwcm9mZXNzaW9uYWwlMjBoZWFkc2hvdCUyMHBvcnRyYWl0fGVufDB8fHx8MTc3NjMyMDQxMnww&ixlib=rb-4.1.0&q=85",
+        "https://images.pexels.com/photos/32721688/pexels-photo-32721688.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+      ]
+    }
+  },
+  "accessibility_and_testing": {
+    "contrast": "Ensure minimum 4.5:1 contrast ratio. If using translucent backgrounds, add a very subtle dark overlay beneath text if it clashes with background.",
+    "testing_attributes": "All interactive elements, buttons, inputs, tabs, and key metrics MUST have a data-testid attribute formatted as kebab-case, role-based."
+  },
+  "instructions_to_main_agent": [
+    "Use pure Tailwind CSS. Apply 'glassmorphism' classes to the Shadcn components.",
+    "Ensure 'Cabinet Grotesk' is loaded for headings and 'IBM Plex Sans' for body.",
+    "Do NOT use pure #000000. Use #060B12 for the absolute darkest background.",
+    "Rely heavily on 'backdrop-blur-2xl' for the depth effect instead of opaque layers.",
+    "Implement region-based compliance logic inside the dashboard, utilizing the green-status accents for 'verified' and 'compliant' states.",
+    "Use Framer Motion to stagger the entry of dashboard bento widgets.",
+    "Always apply data-testid to every interactive component."
+  ]
+}
