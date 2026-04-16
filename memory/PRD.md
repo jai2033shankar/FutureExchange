@@ -88,3 +88,8 @@ Build a deterministic, tokenized, instant-settlement, multi-asset exchange for e
 
 ## Test Credentials
 See /app/memory/test_credentials.md
+
+### Latest Features (April 16, 2026)
+- **WebSocket Live Price Feed on Landing**: Hero cards show real-time CARBON/WHEAT/KWH prices with green pulse indicator, flash animations on price changes
+- **Interactive 12-Step Demo**: "Run Live Demo" button executes auth -> portfolio -> trading -> concentration guard -> carbon calculator -> ESG -> blockchain mining -> governance -> compliance -> emails -> AI chat, all hitting real APIs with progress tracking
+- **E2E Demo Script**: POST /api/demo/run-all executes all 14 scenarios (including Scenario 12 Hoarding, 13 Quality Haircut, 14 Pre-Harvest) and returns 100% pass rate
