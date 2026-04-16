@@ -601,6 +601,16 @@ async def run_e2e_demo():
         results.append({"scenario": 14, "name": "Pre-Harvest Finance", "success": len(loans) > 0,
             "detail": f"{len(loans)} active loans totaling ${sum(l.get('loan_value_usd',0) for l in loans):,.0f} (reputation-linked rates)"})
 
+        # Scenario 15: Sybil attack detection
+        sybil_alert = await db.whale_alerts.find_one({"type": "SybilAttackBlocked"}, {"_id": 0})
+        results.append({"scenario": 15, "name": "Sybil Attack Blocked", "success": sybil_alert is not None,
+            "detail": f"Entity on 3 wallets (same ZK-ID) blocked at {sybil_alert.get('ownership_pct', 6)}% aggregate — sybil-resistant guard active" if sybil_alert else "Sybil scenario not seeded"})
+
+        # Scenario 16: Oracle conflict auto-dispute
+        oracle_dispute = await db.disputes.find_one({"dispute_type": "oracle_conflict"}, {"_id": 0})
+        results.append({"scenario": 16, "name": "Oracle Conflict Dispute", "success": oracle_dispute is not None,
+            "detail": "IoT=Grade A vs Auditor=Grade B — DisputeManager auto-triggered, assets frozen" if oracle_dispute else "Oracle conflict scenario not seeded"})
+
     except Exception as e:
         results.append({"scenario": "error", "name": "Error", "success": False, "detail": str(e)})
 

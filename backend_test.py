@@ -431,15 +431,123 @@ class E4NAPITester:
         """Test Phase 5 features: E2E Demo Script and WebSocket prices"""
         print("\n🎯 Testing Phase 5 Demo Features...")
         
-        # Test E2E demo script - this should execute 14 scenarios
+        # Test E2E demo script - this should execute 16 scenarios (including new hardening scenarios)
         success, error, response = self.make_request('POST', '/demo/run-all')
         if success and response:
             total_scenarios = response.get('total_scenarios', 0)
             passed = response.get('passed', 0)
             success_rate = response.get('success_rate', '0%')
-            self.log_result("E2E Demo Script", success, f"Executed {total_scenarios} scenarios, {passed} passed ({success_rate})", response)
+            self.log_result("E2E Demo Script (16 scenarios)", success, f"Executed {total_scenarios} scenarios, {passed} passed ({success_rate})", response)
         else:
-            self.log_result("E2E Demo Script", success, error, response)
+            self.log_result("E2E Demo Script (16 scenarios)", success, error, response)
+
+    def test_phase6_hardening_features(self):
+        """Test Phase 6 Institutional Hardening features"""
+        print("\n🛡️ Testing Phase 6 Institutional Hardening Features...")
+        
+        if 'retail' in self.tokens:
+            # Test hardening dashboard
+            success, error, response = self.make_request(
+                'GET', '/hardening/dashboard', user_type='retail'
+            )
+            self.log_result("Get hardening dashboard", success, error, response)
+            
+            # Test volatility breakers
+            success2, error2, response2 = self.make_request(
+                'GET', '/guards/volatility-breakers'
+            )
+            self.log_result("Get volatility breakers", success2, error2, response2)
+            
+            # Test ZK identity profile
+            success3, error3, response3 = self.make_request(
+                'GET', '/identity/profile', user_type='retail'
+            )
+            self.log_result("Get ZK identity profile", success3, error3, response3)
+            
+            # Test oracle price feed for CARBON
+            success4, error4, response4 = self.make_request(
+                'GET', '/oracle/price-feed/CARBON'
+            )
+            self.log_result("Get oracle price feed CARBON", success4, error4, response4)
+            
+            # Test insurance treasury
+            success5, error5, response5 = self.make_request(
+                'GET', '/insurance/treasury'
+            )
+            self.log_result("Get insurance treasury", success5, error5, response5)
+            
+            # Test SAR monitor
+            success6, error6, response6 = self.make_request(
+                'GET', '/compliance/sar-monitor', user_type='retail'
+            )
+            self.log_result("Get SAR monitor", success6, error6, response6)
+            
+            # Test scan for wash trading
+            success7, error7, response7 = self.make_request(
+                'POST', '/compliance/scan-wash-trading', user_type='retail'
+            )
+            self.log_result("Scan wash trading", success7, error7, response7)
+            
+            # Test custody handovers
+            success8, error8, response8 = self.make_request(
+                'GET', '/logistics/custody-handovers', user_type='retail'
+            )
+            self.log_result("Get custody handovers", success8, error8, response8)
+            
+            # Test debt market
+            success9, error9, response9 = self.make_request(
+                'GET', '/credit/debt-market'
+            )
+            self.log_result("Get debt market", success9, error9, response9)
+            
+            # Test sybil-resistant concentration check
+            success10, error10, response10 = self.make_request(
+                'GET', '/guards/sybil-check/RICE', user_type='retail'
+            )
+            self.log_result("Sybil-resistant concentration check RICE", success10, error10, response10)
+            
+            # Test link wallet to ZK identity
+            wallet_data = {
+                "wallet_address": "0x1234567890abcdef1234567890abcdef12345678",
+                "zk_proof": "zk_proof_test_12345678"
+            }
+            success11, error11, response11 = self.make_request(
+                'POST', '/identity/link-wallet', wallet_data, user_type='retail'
+            )
+            self.log_result("Link wallet to ZK identity", success11, error11, response11)
+            
+            # Test oracle submission
+            oracle_data = {
+                "trade_id": "test_trade_hardening_001",
+                "oracle_type": "iot_sensor",
+                "grade": "A",
+                "data": {"moisture": 12.5, "purity": 95.0},
+                "signature": "HSM_iot_sensor_abc123def456"
+            }
+            success12, error12, response12 = self.make_request(
+                'POST', '/oracle/submit', oracle_data, user_type='retail'
+            )
+            self.log_result("Submit oracle data", success12, error12, response12)
+            
+            # Test insurance fee collection
+            success13, error13, response13 = self.make_request(
+                'POST', '/insurance/collect-fee?trade_value=10000', user_type='retail'
+            )
+            self.log_result("Collect insurance fee", success13, error13, response13)
+            
+            # Test custody handover creation
+            lch_data = {
+                "trade_id": "test_trade_hardening_001",
+                "asset_symbol": "WHEAT",
+                "quantity": 1000,
+                "pickup_grade": "A",
+                "transporter_id": "TRN-TEST-001",
+                "transporter_signature": "HSM_transporter_signature_test123"
+            }
+            success14, error14, response14 = self.make_request(
+                'POST', '/logistics/custody-handover', lch_data, user_type='retail'
+            )
+            self.log_result("Create custody handover", success14, error14, response14)
 
     def test_trading_endpoints(self):
         """Test trading endpoints"""
@@ -488,6 +596,7 @@ class E4NAPITester:
         self.test_phase3_contracts()
         self.test_phase4_blockchain()
         self.test_phase5_demo_features()
+        self.test_phase6_hardening_features()
         
         # Print summary
         print("\n" + "=" * 60)
