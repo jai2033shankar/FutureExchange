@@ -50,12 +50,10 @@ Build a deterministic, tokenized, instant-settlement, multi-asset exchange for e
 - MFA (TOTP-based two-factor authentication)
 - Smart contract simulation engine (escrow, token swap, carbon retirement, settlement)
 
-### Phase 4 - Scale & Integrate (April 16, 2026)
-- Blockchain simulation layer (E4N Testnet, PoA, genesis block + 15 blocks seeded)
-- DAO governance module (proposals, voting, quorum)
-- IoT warehouse tokenization (4 warehouses, live sensor simulation)
-- Multi-language support (English, Spanish, French, Chinese, Hindi, Arabic)
-- Enhanced mobile responsive UX
+### Additional Features (April 16, 2026 - Latest)
+- **Candlestick Chart**: Real OHLCV chart on Trading page with technical indicator overlays (SMA-20, EMA-12, Bollinger Bands), volume bars, OHLCV strip with RSI
+- **Email Notification Simulation**: Full inbox UI with folder nav (Inbox/Unread/Starred), 11 email templates for critical events (trade executed, KYC approved, carbon credit verified, compliance alerts, settlement complete, etc.), "Send Test Emails" demo feature
+- **Enhanced Blockchain Testnet**: Merkle root computation, simulated proof-of-work mining with difficulty scaling, mempool with pending transactions, gas oracle (Slow/Standard/Fast/Instant), 5 PoA validators with uptime stats, manual "Mine Block" button, block explorer showing hash/merkle root/difficulty/miner
 
 ## Prioritized Backlog
 ### P0 (Critical - Next)
