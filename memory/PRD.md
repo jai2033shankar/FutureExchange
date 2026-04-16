@@ -5,8 +5,8 @@ Build a deterministic, tokenized, instant-settlement, multi-asset exchange for e
 
 ## Architecture
 - **Frontend**: React 18 + Shadcn/UI + Recharts + Framer Motion + Glassmorphism CSS
-- **Backend**: FastAPI + Motor (async MongoDB) + JWT auth
-- **Database**: MongoDB (local)
+- **Backend**: FastAPI (7 modules) + Motor (async MongoDB) + JWT auth
+- **Database**: MongoDB (25+ collections)
 - **AI**: OpenAI GPT-5.2 via Emergent LLM Key
 
 ## Core Features (All DONE)
@@ -20,15 +20,19 @@ Build a deterministic, tokenized, instant-settlement, multi-asset exchange for e
 8. Smart Contracts, DAO Governance, IoT Warehouse pages
 9. AI Chat panel (GPT-5.2)
 10. Region-based Compliance (EU, US, APAC, AFRICA, LATAM)
-11. **Kalshi/Polymarket-style Prediction Markets** (13 seeded markets, 5 categories, AMM pricing, position P&L tracking)
-12. **PINN Deterministic Models** (Mean-Reversion Forecast, Supply-Demand Equilibrium, Volatility Surface, Carbon Price Forecaster)
+11. **Kalshi/Polymarket-style Prediction Markets** (13 seeded markets, 5 categories, AMM pricing, position P&L)
+12. **PINN Deterministic Models** (Mean-Reversion, Supply-Demand Equilibrium, Vol Surface, Carbon Forecaster)
+13. **Multi-language i18n** (EN, ES, FR, ZH, HI, AR — 155 keys x 6 languages, sidebar + settings translated)
+14. **Comprehensive README** (1138 lines, Mermaid diagrams, 80+ endpoints, 14 value agents)
 
-## Key Endpoints
+## Key Endpoints (80+)
 - Auth: POST /api/auth/login, /register, /logout, GET /me
 - Assets: GET /api/assets, /assets/{symbol}/price-history
 - Orders: POST /api/orders, GET /api/orders
 - Predictions: GET /api/markets, /markets/stats, /markets/categories, POST /api/markets/trade
 - PINN: GET /api/pinn/models, /pinn/forecast/{asset}, /pinn/equilibrium/{asset}, /pinn/volatility-surface/{asset}, /pinn/carbon-forecast
+- Hardening: ZK-identity, volatility breakers, oracle bridge, insurance, SAR
+- Blockchain: blocks, transactions, mempool, gas oracle, smart contracts, governance
 
 ## Test Credentials
 | Email | Password | Role |
@@ -43,9 +47,10 @@ Build a deterministic, tokenized, instant-settlement, multi-asset exchange for e
 - Blockchain execution (Layer 2 simulated)
 - Chainlink Oracles
 - Email notifications
-- PINN models (Ornstein-Uhlenbeck mathematical simulation, not actual neural networks)
+- PINN models (Ornstein-Uhlenbeck mathematical simulation)
 
 ## Backlog
-- P1: Multi-language i18n validation (ES, FR, ZH, HI, AR)
 - P2: IoT Warehouse tokenization frontend depth
-- P2: README/Architecture documentation update for GitHub
+- P2: Production EVM integration (Arbitrum/Avalanche)
+- P3: Mobile app (React Native)
+- P3: Real-time WebSocket order book

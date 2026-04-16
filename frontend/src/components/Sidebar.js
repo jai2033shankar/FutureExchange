@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { useI18n } from '@/contexts/I18nContext';
 import {
   LayoutDashboard, ArrowLeftRight, Leaf, Wallet, ShieldCheck, Shield, Lock,
   TrendingUp, Settings, LogOut, X, Users, Blocks, Vote, FileCode,
@@ -8,28 +9,29 @@ import {
 } from 'lucide-react';
 
 const navItems = [
-  { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, roles: ['retail', 'institutional', 'regulator'] },
-  { path: '/trading', label: 'Trading', icon: ArrowLeftRight, roles: ['retail', 'institutional', 'regulator'] },
-  { path: '/carbon-credits', label: 'Carbon Credits', icon: Leaf, roles: ['retail', 'institutional', 'regulator'] },
-  { path: '/carbon-calculator', label: 'Carbon Calculator', icon: Calculator, roles: ['retail', 'institutional', 'regulator'] },
-  { path: '/portfolio', label: 'Portfolio', icon: Wallet, roles: ['retail', 'institutional', 'regulator'] },
-  { path: '/compliance', label: 'Compliance', icon: ShieldCheck, roles: ['retail', 'institutional', 'regulator'] },
-  { path: '/predictions', label: 'Predictions', icon: TrendingUp, roles: ['retail', 'institutional', 'regulator'] },
-  { path: '/blockchain', label: 'Blockchain', icon: Blocks, roles: ['retail', 'institutional', 'regulator'] },
-  { path: '/smart-contracts', label: 'Smart Contracts', icon: FileCode, roles: ['retail', 'institutional', 'regulator'] },
-  { path: '/governance', label: 'Governance', icon: Vote, roles: ['retail', 'institutional', 'regulator'] },
-  { path: '/warehouses', label: 'Warehouses', icon: Warehouse, roles: ['retail', 'institutional', 'regulator'] },
-  { path: '/market-guards', label: 'Market Guards', icon: Shield, roles: ['retail', 'institutional', 'regulator'] },
-  { path: '/hardening', label: 'Hardening', icon: Lock, roles: ['retail', 'institutional', 'regulator'] },
-  { path: '/pinn-models', label: 'PINN Models', icon: Brain, roles: ['retail', 'institutional', 'regulator'] },
-  { path: '/kyc', label: 'KYC Verification', icon: FileCheck, roles: ['retail', 'institutional', 'regulator'] },
-  { path: '/emails', label: 'Email Alerts', icon: Mail, roles: ['retail', 'institutional', 'regulator'] },
-  { path: '/settings', label: 'Settings', icon: Settings, roles: ['retail', 'institutional', 'regulator'] },
-  { path: '/admin', label: 'Regulator', icon: Users, roles: ['regulator'] },
+  { path: '/dashboard', i18nKey: 'nav.dashboard', label: 'Dashboard', icon: LayoutDashboard, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/trading', i18nKey: 'nav.trading', label: 'Trading', icon: ArrowLeftRight, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/carbon-credits', i18nKey: 'nav.carbon_credits', label: 'Carbon Credits', icon: Leaf, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/carbon-calculator', i18nKey: 'nav.calculator', label: 'Carbon Calculator', icon: Calculator, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/portfolio', i18nKey: 'nav.portfolio', label: 'Portfolio', icon: Wallet, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/compliance', i18nKey: 'nav.compliance', label: 'Compliance', icon: ShieldCheck, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/predictions', i18nKey: 'nav.predictions', label: 'Predictions', icon: TrendingUp, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/blockchain', i18nKey: 'nav.blockchain', label: 'Blockchain', icon: Blocks, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/smart-contracts', i18nKey: 'nav.contracts', label: 'Smart Contracts', icon: FileCode, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/governance', i18nKey: 'nav.governance', label: 'Governance', icon: Vote, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/warehouses', i18nKey: 'nav.warehouses', label: 'Warehouses', icon: Warehouse, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/market-guards', i18nKey: 'nav.market_guards', label: 'Market Guards', icon: Shield, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/hardening', i18nKey: 'nav.hardening', label: 'Hardening', icon: Lock, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/pinn-models', i18nKey: 'nav.pinn_models', label: 'PINN Models', icon: Brain, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/kyc', i18nKey: 'nav.kyc', label: 'KYC Verification', icon: FileCheck, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/emails', i18nKey: 'nav.emails', label: 'Email Alerts', icon: Mail, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/settings', i18nKey: 'nav.settings', label: 'Settings', icon: Settings, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/admin', i18nKey: 'nav.admin', label: 'Regulator', icon: Users, roles: ['regulator'] },
 ];
 
 export default function Sidebar({ onClose }) {
   const { user, logout } = useAuth();
+  const { t } = useI18n();
   const location = useLocation();
 
   const filteredNav = navItems.filter(item => item.roles.includes(user?.role || 'retail'));
@@ -69,7 +71,7 @@ export default function Sidebar({ onClose }) {
               }`}
             >
               <item.icon className={`w-4 h-4 ${isActive ? 'text-emerald-400' : ''}`} strokeWidth={1.5} />
-              <span>{item.label}</span>
+              <span>{t(item.i18nKey)}</span>
             </NavLink>
           );
         })}
@@ -92,7 +94,7 @@ export default function Sidebar({ onClose }) {
           className="flex items-center gap-2 w-full px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-red-400 hover:bg-red-500/5 transition-all"
         >
           <LogOut className="w-4 h-4" strokeWidth={1.5} />
-          <span>Sign Out</span>
+          <span>{t('common.sign_out')}</span>
         </button>
       </div>
     </div>

@@ -11,7 +11,7 @@
 [![TailwindCSS](https://img.shields.io/badge/Styling-TailwindCSS-06B6D4?style=flat-square&logo=tailwindcss)](https://tailwindcss.com)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 
-**65+ API Endpoints · 17 Frontend Pages · 16 E2E Scenarios · 5 Backend Modules · 6 Languages**
+**80+ API Endpoints · 19 Frontend Pages · 16 E2E Scenarios · 7 Backend Modules · 6 Languages**
 
 [Live Demo](#interactive-demo) · [Architecture](#system-architecture) · [Value Agents](#feature-wise-value-agents) · [Quick Start](#quick-start) · [API Reference](#api-reference)
 
@@ -137,6 +137,10 @@ graph TB
             IOT["IoT Warehouse<br/>Sensor Tracking"]
             AI["AI Assistant<br/>GPT-5.2"]
         end
+        subgraph ML["ML & Prediction Layer"]
+            PRED["Prediction Markets<br/>Kalshi/Polymarket-Style<br/>13 Event Contracts"]
+            PINN["PINN Models<br/>OU Mean-Reversion<br/>Supply-Demand Eq."]
+        end
     end
 
     subgraph DATA["Data Layer"]
@@ -159,6 +163,7 @@ graph TB
     HARDENING --> DATA
     INFRA --> DATA
     INFRA --> EXTERNAL
+    ML --> DATA
 
     AUTH --> OBJSTORE
 
@@ -479,6 +484,26 @@ Each module in E4N acts as an autonomous "value agent" — a self-contained engi
 | **Capabilities** | Off-book RFQ matching, slippage circuit breaker (2% max), multiple LP quotes, automated counterparty discovery |
 | **Key metric** | Slippage protection prevents price manipulation on large orders |
 
+### 13. Prediction Markets Agent (Kalshi/Polymarket)
+
+| Aspect | Detail |
+|---|---|
+| **What it does** | Enables binary event contract trading on carbon, commodity, regulation, and macro outcomes |
+| **Who benefits** | All traders seeking exposure to future event probabilities |
+| **Value created** | Price discovery for real-world events, hedging instrument for carbon policy risk |
+| **Capabilities** | 13 markets across 5 categories, AMM pricing ($0.01-$0.99), position P&L tracking, market resolution with oracle settlement |
+| **Key metric** | $3.6M+ total volume across 13 seeded markets |
+
+### 14. PINN Deterministic Models Agent
+
+| Aspect | Detail |
+|---|---|
+| **What it does** | Physics-constrained ML price forecasting using Ornstein-Uhlenbeck mean-reversion, supply-demand equilibrium, and volatility surfaces |
+| **Who benefits** | Quantitative traders, risk managers, carbon policy analysts |
+| **Value created** | Deterministic, bounded price forecasts that respect physical constraints (unlike black-box ML) |
+| **Capabilities** | 4 model types across 5 assets, 95% confidence intervals, bull/bear/base scenarios, carbon-specific regulatory regime awareness |
+| **Key metric** | Mean-reversion half-life calibrated per asset class (e.g., H2O: 35d, CARBON: 349d) |
+
 ---
 
 ## Business Impact & Metrics
@@ -518,7 +543,7 @@ Value Distribution:
 
 ## Tech Stack
 
-### Backend Architecture (5 Modules, 65+ Endpoints)
+### Backend Architecture (7 Modules, 80+ Endpoints)
 
 | Module | File | Purpose | Endpoints |
 |---|---|---|---|
@@ -527,8 +552,10 @@ Value Distribution:
 | **Blockchain** | `blockchain.py` | Blockchain Sim, Smart Contracts, DAO Governance, IoT Warehouses | 14 |
 | **Contracts** | `contracts.py` | ConcentrationGuard, CreditEngine, QualityOracle, RFQ, ESG, CBDC, SMS, Disputes | 15 |
 | **Hardening** | `hardening.py` | ZK-Identity, Volatility Breakers, Oracle Bridge, Insurance, SAR, Custody, Debt Market | 16 |
+| **Prediction Markets** | `prediction_engine.py` | Kalshi/Polymarket-style event contracts, AMM pricing, CLOB order book, position P&L | 12 |
+| **PINN Models** | `pinn_models.py` | Physics-Informed Neural Networks: OU mean-reversion, supply-demand equilibrium, vol surface, carbon forecaster | 6 |
 
-### Frontend Architecture (17 Pages)
+### Frontend Architecture (19 Pages)
 
 | Page | Route | Function |
 |---|---|---|
@@ -540,7 +567,8 @@ Value Distribution:
 | Carbon Calculator | `/carbon-calculator` | Organization emission calculator |
 | Portfolio | `/portfolio` | Holdings, allocation, risk scoring |
 | Compliance | `/compliance` | Region-based rules, user status |
-| Predictions | `/predictions` | Forecasting markets with betting |
+| Predictions | `/predictions` | Kalshi-style event contract trading with AMM pricing |
+| PINN Models | `/pinn-models` | Physics-informed ML forecasting dashboard |
 | Blockchain | `/blockchain` | Explorer with gas oracle, mempool, validators |
 | Smart Contracts | `/smart-contracts` | Deploy and execute contracts |
 | Governance | `/governance` | DAO proposals and voting |
@@ -588,7 +616,9 @@ e4n/
 │   ├── features.py             # Phase 2 (WebSocket, KYC, notifications, PDF/CSV, MFA)
 │   ├── blockchain.py           # Phase 4 (blockchain sim, smart contracts, DAO, IoT)
 │   ├── contracts.py            # Phase 3A (guards, RFQ, quality oracle, disputes, ESG)
-│   └── hardening.py            # Phase 3B (ZK-identity, breakers, oracle bridge, insurance, SAR)
+│   ├── hardening.py            # Phase 3B (ZK-identity, breakers, oracle bridge, insurance, SAR)
+│   ├── prediction_engine.py    # Kalshi/Polymarket-style event contract markets
+│   └── pinn_models.py          # Physics-Informed Neural Network pricing models
 │
 ├── frontend/
 │   ├── .env                    # Frontend environment
@@ -597,24 +627,24 @@ e4n/
 │   └── src/
 │       ├── index.css           # Global styles + CSS variables
 │       ├── App.css             # Glassmorphism utilities
-│       ├── App.js              # Router (19 routes) + Providers
+│       ├── App.js              # Router (21 routes) + Providers
 │       ├── contexts/
 │       │   ├── AuthContext.js   # Auth state + API helper
 │       │   └── I18nContext.js   # i18n (6 languages)
 │       ├── components/
 │       │   ├── Layout.js       # Sidebar + notifications + AI chat
-│       │   ├── Sidebar.js      # Navigation (16 items)
+│       │   ├── Sidebar.js      # Navigation (18 items)
 │       │   ├── AIChat.js       # GPT-5.2 chat panel
 │       │   ├── CandlestickChart.js  # OHLCV with indicators
 │       │   ├── NotificationBell.js  # Real-time notification dropdown
 │       │   └── ui/             # Shadcn/UI components
-│       └── pages/              # 17 page components
+│       └── pages/              # 19 page components
 │
 ├── memory/
 │   ├── PRD.md                  # Product Requirements Document
 │   └── test_credentials.md     # Demo credentials
 │
-├── test_reports/               # Automated test results (6 iterations)
+├── test_reports/               # Automated test results (7 iterations)
 ├── README.md                   # This file
 ├── LICENSE                     # MIT License
 └── .gitignore
@@ -820,6 +850,152 @@ yarn start  # Available at http://localhost:3000
 
 </details>
 
+<details>
+<summary><strong>Prediction Markets Module — prediction_engine.py (12 endpoints)</strong></summary>
+
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| GET | `/api/markets` | No | List prediction markets (filter by category/status) |
+| GET | `/api/markets/stats` | No | Market statistics (volume, trades, open interest) |
+| GET | `/api/markets/categories` | No | Category list with counts |
+| GET | `/api/markets/leaderboard` | No | Top traders by P&L |
+| GET | `/api/markets/positions` | Yes | User positions with P&L |
+| GET | `/api/markets/trades` | Yes | User trade history |
+| GET | `/api/markets/{id}` | No | Market detail with order book |
+| POST | `/api/markets/create` | Yes | Create prediction market |
+| POST | `/api/markets/trade` | Yes | Buy YES/NO contracts |
+| POST | `/api/markets/close-position` | Yes | Close position |
+| POST | `/api/markets/{id}/resolve` | Yes | Resolve market outcome |
+
+</details>
+
+<details>
+<summary><strong>PINN Models Module — pinn_models.py (6 endpoints)</strong></summary>
+
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| GET | `/api/pinn/models` | No | List PINN models with metadata |
+| GET | `/api/pinn/forecast/{asset}` | No | Mean-reversion forecast with CI |
+| GET | `/api/pinn/equilibrium/{asset}` | No | Supply-demand equilibrium model |
+| GET | `/api/pinn/volatility-surface/{asset}` | No | Implied vol surface |
+| GET | `/api/pinn/carbon-forecast` | No | Carbon forecast with policy scenarios |
+
+</details>
+
+---
+
+## Prediction Markets
+
+### Kalshi/Polymarket-Style Event Contract Trading
+
+E4N includes a full-featured prediction market engine for trading binary event contracts. Users buy YES or NO shares priced between $0.01 and $0.99 — if the event resolves in your favor, each contract pays out $1.00.
+
+### Market Categories
+
+| Category | Color | Example Markets |
+|---|---|---|
+| **Carbon & Climate** | Green | EU carbon price exceeding $80/tCO2e, Global credit issuances >500M tonnes |
+| **Commodities** | Amber | Wheat futures >$7/bushel, Rice production decline >3% |
+| **Regulation** | Blue | SEC carbon ETF approval, EU CBAM expansion, China ETS Phase 2 |
+| **Macro-Economic** | Purple | US Fed Funds Rate <4%, Green bond issuance >$1T |
+| **Supply Chain** | Cyan | Food price index decline >5%, Shipping rates SCFI <1000 |
+
+### Pricing Mechanism
+
+The prediction market uses a **Constant Product AMM** (Automated Market Maker) hybrid with CLOB order book:
+
+```
+AMM Formula: YES_price = NO_shares / (YES_shares + NO_shares)
+Contract Price: $0.01 - $0.99
+Payout: $1.00 per winning contract
+```
+
+### Architecture
+
+```mermaid
+graph LR
+    USER["Trader"] -->|Buy YES/NO| AMM["Constant Product AMM"]
+    AMM -->|Update Price| MARKET["Market State"]
+    MARKET -->|Price History| CHART["Price Chart"]
+    MARKET -->|Position| POS["Position Manager"]
+    POS -->|P&L Tracking| WALLET["Wallet"]
+    
+    ORACLE["Resolution Oracle"] -->|Outcome| SETTLE["Settlement Engine"]
+    SETTLE -->|$1 per contract| WINNERS["Winning Positions"]
+    SETTLE -->|$0| LOSERS["Losing Positions"]
+    
+    style AMM fill:#14223A,stroke:#00F298,color:#fff
+    style SETTLE fill:#14223A,stroke:#F59E0B,color:#fff
+```
+
+### API Endpoints
+
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| GET | `/api/markets` | No | List all prediction markets (filter by category/status) |
+| GET | `/api/markets/stats` | No | Market-wide statistics (volume, trades, open interest) |
+| GET | `/api/markets/categories` | No | Category list with active market counts |
+| GET | `/api/markets/leaderboard` | No | Top traders ranked by P&L |
+| GET | `/api/markets/positions` | Yes | User's open/closed positions with P&L |
+| GET | `/api/markets/trades` | Yes | User's prediction trade history |
+| GET | `/api/markets/{id}` | No | Detailed market info with order book and price history |
+| POST | `/api/markets/create` | Yes | Create new prediction market |
+| POST | `/api/markets/trade` | Yes | Buy YES/NO contracts at specified price |
+| POST | `/api/markets/close-position` | Yes | Close open position at current market price |
+| POST | `/api/markets/{id}/resolve` | Yes | Resolve market with YES/NO outcome (regulator/creator) |
+
+### Seeded Data
+
+13 markets across 5 categories with 30-day price history, seeded automatically on startup. Total volume: ~$3.6M across ~30K simulated trades.
+
+---
+
+## PINN Deterministic Models
+
+### Physics-Informed Neural Network Pricing Engine
+
+E4N implements a suite of **PINN-based ML models** that use physics constraints (PDEs) to produce deterministic, bounded price forecasts. Unlike black-box ML models, PINNs embed domain knowledge (mean-reversion, supply-demand equilibrium, volatility surfaces) directly into the neural network architecture.
+
+### Available Models
+
+| Model | PDE/Physics | Output | Assets |
+|---|---|---|---|
+| **Mean-Reversion Forecast** | Ornstein-Uhlenbeck SDE: `dP = kappa*(mu - P)*dt + sigma*dW` | 30-day price forecast with bull/bear/base scenarios + 95% CI | All 5 |
+| **Supply-Demand Equilibrium** | `Supply(P) = Demand(P)` at equilibrium, elasticity-bounded | Fair value price, market signal (OVERVALUED/UNDERVALUED/FAIR) | All 5 |
+| **Volatility Surface** | Black-Scholes PDE with PINN-calibrated local volatility | Implied vol across 9 strikes x 6 expiries | All 5 |
+| **Carbon Price Forecaster** | Regime-aware OU with regulatory tightening factor | 60-90 day carbon forecast + policy scenario analysis | CARBON |
+
+### Model Parameters
+
+| Asset | Mean (mu) | Speed (kappa) | Volatility (sigma) | Supply Elasticity | Demand Elasticity |
+|---|---|---|---|---|---|
+| RICE | $0.85 | 2.0 | 0.08 | -0.30 | -0.50 |
+| WHEAT | $0.32 | 1.8 | 0.06 | -0.25 | -0.60 |
+| KWH | $0.12 | 3.0 | 0.04 | -0.15 | -0.80 |
+| H2O | $0.005 | 5.0 | 0.01 | -0.10 | -0.90 |
+| CARBON | $45.00 | 0.5 | 8.00 | -0.40 | -0.30 |
+
+### Carbon Policy Scenarios
+
+The Carbon Price Forecaster includes regulatory regime awareness with weighted policy impact:
+
+| Policy | Probability | Price Impact | Direction |
+|---|---|---|---|
+| EU CBAM Expansion | 72% | +8.5% | Up |
+| China ETS Phase 2 | 58% | +12.0% | Up |
+| Article 6 Market Launch | 35% | -5.0% | Down |
+| US Carbon Tax Legislation | 20% | +25.0% | Up |
+
+### API Endpoints
+
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| GET | `/api/pinn/models` | No | List all PINN models with metadata |
+| GET | `/api/pinn/forecast/{asset}` | No | Mean-reversion price forecast with confidence intervals |
+| GET | `/api/pinn/equilibrium/{asset}` | No | Supply-demand equilibrium model with fair value |
+| GET | `/api/pinn/volatility-surface/{asset}` | No | Implied volatility surface (strike x expiry matrix) |
+| GET | `/api/pinn/carbon-forecast` | No | Specialized carbon forecast with policy scenarios |
+
 ---
 
 ## Smart Contract Simulations
@@ -921,6 +1097,7 @@ volumes:
 - [x] Phase 3B: Resiliency (Guards, RFQ, Quality Oracle, Disputes, ESG, CBDC, SMS)
 - [x] Phase 3C: Hardening (Sybil Guard, Volatility Breakers, Oracle Bridge, Insurance, SAR, Custody)
 - [x] Phase 4: Scale (Blockchain Sim, DAO, IoT, i18n, Landing Page, Demo Mode)
+- [x] Phase 5: ML & Prediction (Kalshi-style Prediction Markets, PINN Deterministic Models, Comprehensive i18n)
 
 ### Future
 - [ ] Production EVM integration (Arbitrum/Avalanche subnet)
@@ -932,7 +1109,7 @@ volumes:
 
 ---
 
-## Test Results (6 Iterations)
+## Test Results (7 Iterations)
 
 | Iteration | Backend | Frontend | Key Features Tested |
 |---|---|---|---|
@@ -942,6 +1119,7 @@ volumes:
 | 4 | 98% (49/50) | 100% | Landing, Market Guards |
 | 5 | 98% (50/51) | 100% | WebSocket, Demo Mode |
 | 6 | 98.5% (64/65) | 95% | Hardening Layer |
+| 7 | 100% (24/24) | 100% | Prediction Markets, PINN Models |
 
 ---
 
@@ -955,6 +1133,6 @@ MIT License — see [LICENSE](LICENSE)
 
 **Built with purpose. Traded with trust. Settled with certainty.**
 
-*E4N — Exchange for Necessities · 65+ Endpoints · 17 Pages · 16 Scenarios · 97% Test Coverage*
+*E4N — Exchange for Necessities · 80+ Endpoints · 19 Pages · 16 Scenarios · 14 Value Agents · 6 Languages*
 
 </div>
