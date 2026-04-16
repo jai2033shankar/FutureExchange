@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import {
-  LayoutDashboard, ArrowLeftRight, Leaf, Wallet, ShieldCheck,
+  LayoutDashboard, ArrowLeftRight, Leaf, Wallet, ShieldCheck, Shield,
   TrendingUp, Settings, LogOut, X, Users, Blocks, Vote, FileCode,
   Warehouse, Calculator, FileCheck, Mail
 } from 'lucide-react';
@@ -19,6 +19,7 @@ const navItems = [
   { path: '/smart-contracts', label: 'Smart Contracts', icon: FileCode, roles: ['retail', 'institutional', 'regulator'] },
   { path: '/governance', label: 'Governance', icon: Vote, roles: ['retail', 'institutional', 'regulator'] },
   { path: '/warehouses', label: 'Warehouses', icon: Warehouse, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/market-guards', label: 'Market Guards', icon: Shield, roles: ['retail', 'institutional', 'regulator'] },
   { path: '/kyc', label: 'KYC Verification', icon: FileCheck, roles: ['retail', 'institutional', 'regulator'] },
   { path: '/emails', label: 'Email Alerts', icon: Mail, roles: ['retail', 'institutional', 'regulator'] },
   { path: '/settings', label: 'Settings', icon: Settings, roles: ['retail', 'institutional', 'regulator'] },

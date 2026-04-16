@@ -20,6 +20,8 @@ import SmartContracts from "@/pages/SmartContracts";
 import IoTWarehouse from "@/pages/IoTWarehouse";
 import SettingsPage from "@/pages/SettingsPage";
 import EmailInbox from "@/pages/EmailInbox";
+import LandingPage from "@/pages/LandingPage";
+import MarketGuards from "@/pages/MarketGuards";
 
 function ProtectedRoute({ children, roles }) {
   const { user, loading } = useAuth();
@@ -52,6 +54,7 @@ function AppRoutes() {
   }
   return (
     <Routes>
+      <Route path="/" element={user ? <Navigate to="/dashboard" replace /> : <LandingPage />} />
       <Route path="/auth" element={user ? <Navigate to="/dashboard" replace /> : <AuthPage />} />
       <Route path="/dashboard" element={<ProtectedRoute><Layout><Dashboard /></Layout></ProtectedRoute>} />
       <Route path="/trading" element={<ProtectedRoute><Layout><Trading /></Layout></ProtectedRoute>} />
@@ -67,8 +70,9 @@ function AppRoutes() {
       <Route path="/warehouses" element={<ProtectedRoute><Layout><IoTWarehouse /></Layout></ProtectedRoute>} />
       <Route path="/settings" element={<ProtectedRoute><Layout><SettingsPage /></Layout></ProtectedRoute>} />
       <Route path="/emails" element={<ProtectedRoute><Layout><EmailInbox /></Layout></ProtectedRoute>} />
+      <Route path="/market-guards" element={<ProtectedRoute><Layout><MarketGuards /></Layout></ProtectedRoute>} />
       <Route path="/admin" element={<ProtectedRoute roles={["regulator"]}><Layout><AdminDashboard /></Layout></ProtectedRoute>} />
-      <Route path="*" element={<Navigate to={user ? "/dashboard" : "/auth"} replace />} />
+      <Route path="*" element={<Navigate to={user ? "/dashboard" : "/"} replace />} />
     </Routes>
   );
 }

@@ -316,6 +316,82 @@ class E4NAPITester:
             )
             self.log_result("Export trades CSV", success5, error5, response5)
 
+    def test_phase3_contracts(self):
+        """Test Phase 3 features: Market Guards, RFQ, Pre-Harvest, Disputes, ESG, CBDC"""
+        print("\n🛡️ Testing Phase 3 Contract Features...")
+        
+        # Test public platform stats (no auth needed)
+        success, error, response = self.make_request('GET', '/platform/stats')
+        self.log_result("Get platform stats (public)", success, error, response)
+        
+        if 'retail' in self.tokens:
+            # Test concentration guard
+            success2, error2, response2 = self.make_request(
+                'GET', '/guards/concentration/RICE', user_type='retail'
+            )
+            self.log_result("Get concentration status RICE", success2, error2, response2)
+            
+            # Test whale alerts
+            success3, error3, response3 = self.make_request(
+                'GET', '/guards/whale-alerts', user_type='retail'
+            )
+            self.log_result("Get whale alerts", success3, error3, response3)
+            
+            # Test pre-harvest loans
+            success4, error4, response4 = self.make_request(
+                'GET', '/credit/pre-harvest/all'
+            )
+            self.log_result("Get all pre-harvest loans", success4, error4, response4)
+            
+            # Test disputes
+            success5, error5, response5 = self.make_request(
+                'GET', '/disputes', user_type='retail'
+            )
+            self.log_result("Get disputes", success5, error5, response5)
+            
+            # Test RFQ orders
+            success6, error6, response6 = self.make_request(
+                'GET', '/rfq/orders', user_type='retail'
+            )
+            self.log_result("Get RFQ orders", success6, error6, response6)
+            
+            # Test ESG trade footprint calculation
+            esg_data = {
+                "trade_id": "test_trade_001",
+                "distance_km": 500,
+                "transport_mode": "road",
+                "weight_tonnes": 10
+            }
+            success7, error7, response7 = self.make_request(
+                'POST', '/esg/trade-footprint', esg_data, user_type='retail'
+            )
+            self.log_result("Calculate ESG trade footprint", success7, error7, response7)
+            
+            # Test quality report submission
+            quality_data = {
+                "trade_id": "test_trade_001",
+                "moisture_pct": 12.5,
+                "purity_pct": 95.0,
+                "grade": "A",
+                "spectral_hash": "HSM_VERIFIED_abc123def456"
+            }
+            success8, error8, response8 = self.make_request(
+                'POST', '/quality/report', quality_data, user_type='retail'
+            )
+            self.log_result("Submit quality report", success8, error8, response8)
+            
+            # Test CBDC settlement
+            cbdc_data = {
+                "trade_id": "test_trade_001",
+                "amount": 1000.0,
+                "currency": "USD",
+                "sovereign_signature": "0x1234567890abcdef1234567890abcdef12345678"
+            }
+            success9, error9, response9 = self.make_request(
+                'POST', '/cbdc/settle', cbdc_data, user_type='retail'
+            )
+            self.log_result("CBDC settlement", success9, error9, response9)
+
     def test_phase4_blockchain(self):
         """Test Phase 4 features: Blockchain, smart contracts, governance, warehouses"""
         print("\n⛓️ Testing Phase 4 Blockchain Features...")
@@ -395,6 +471,7 @@ class E4NAPITester:
         self.test_trading_endpoints()
         self.test_admin_endpoints()
         self.test_phase2_features()
+        self.test_phase3_contracts()
         self.test_phase4_blockchain()
         
         # Print summary

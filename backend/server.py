@@ -21,6 +21,7 @@ from typing import List, Optional
 from contextlib import asynccontextmanager
 from features import features_router, init_features, ws_manager, price_update_loop, init_storage
 from blockchain import blockchain_router, init_blockchain, seed_blockchain_data
+from contracts import contracts_router, init_contracts, seed_contract_scenarios
 
 # MongoDB connection
 mongo_url = os.environ['MONGO_URL']
@@ -1103,6 +1104,7 @@ async def get_portfolio(user: dict = Depends(get_current_user)):
 app.include_router(api_router)
 app.include_router(features_router)
 app.include_router(blockchain_router)
+app.include_router(contracts_router)
 
 # WebSocket endpoint (on main app, not router)
 from fastapi import WebSocket, WebSocketDisconnect
@@ -1131,7 +1133,9 @@ async def startup_event():
     await seed_database()
     init_features(db, get_current_user, require_role)
     init_blockchain(db, get_current_user, require_role)
+    init_contracts(db, get_current_user)
     await seed_blockchain_data()
+    await seed_contract_scenarios()
     try:
         init_storage()
     except Exception as e:
