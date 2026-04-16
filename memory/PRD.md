@@ -50,10 +50,17 @@ Build a deterministic, tokenized, instant-settlement, multi-asset exchange for e
 - MFA (TOTP-based two-factor authentication)
 - Smart contract simulation engine (escrow, token swap, carbon retirement, settlement)
 
-### Additional Features (April 16, 2026 - Latest)
-- **Candlestick Chart**: Real OHLCV chart on Trading page with technical indicator overlays (SMA-20, EMA-12, Bollinger Bands), volume bars, OHLCV strip with RSI
-- **Email Notification Simulation**: Full inbox UI with folder nav (Inbox/Unread/Starred), 11 email templates for critical events (trade executed, KYC approved, carbon credit verified, compliance alerts, settlement complete, etc.), "Send Test Emails" demo feature
-- **Enhanced Blockchain Testnet**: Merkle root computation, simulated proof-of-work mining with difficulty scaling, mempool with pending transactions, gas oracle (Slow/Standard/Fast/Instant), 5 PoA validators with uptime stats, manual "Mine Block" button, block explorer showing hash/merkle root/difficulty/miner
+### Phase 3 - Resiliency & Comprehensiveness (April 16, 2026 - Latest)
+- **Public Landing Page**: Hero section, feature grid, live stats, how-it-works, business impact metrics, CTA
+- **ConcentrationGuard**: 5% ownership cap, 2% hoarding threshold with storage fees, whale alert system
+- **CreditEngine**: Pre-harvest debt tokens at reputation-linked rates (30% max loan-to-yield), auto-repayment
+- **QualityOracle**: Multi-parametric proofs (moisture/purity/grade), HSM verification, dynamic price haircuts (A=0%, B=10%, C=20%, D=35%)
+- **BulkTradeEngine**: RFQ dark pool for orders >$500K, slippage circuit breaker (2% max), LP quote matching
+- **ESGTracker**: Logistics carbon footprint calculator (road/rail/sea/air emission factors)
+- **CBDCBridge**: Sovereign signature settlement simulation
+- **SMSGateway**: Offline emergency buy orders via hex payload parsing
+- **DisputeManager**: Force majeure handling, tri-party arbitration, asset freezing
+- **Seeded Scenarios**: Hoarding (Scenario 12), Quality Haircut (Scenario 13), Pre-Harvest Loan (Scenario 14)
 
 ## Prioritized Backlog
 ### P0 (Critical - Next)
