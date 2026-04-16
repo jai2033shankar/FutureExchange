@@ -9,13 +9,13 @@ Build a deterministic, tokenized, instant-settlement, multi-asset exchange for e
 - **Database**: MongoDB (35+ collections)
 - **AI**: OpenAI GPT-5.2 via Emergent LLM Key
 
-## All Features (DONE)
+## All Features (16 major, ALL DONE)
 1. JWT Auth (Retail/Institutional/Regulator)
 2. Asset Trading (6 assets) with order matching
 3. Carbon Credits MRV lifecycle
 4. WebSocket price feeds & Candlestick charts
-5. 12-Step Interactive Demo & Landing Page
-6. Institutional Hardening (Sybil, Volatility, Insurance)
+5. 12-Step Demo & Landing Page
+6. Institutional Hardening
 7. Blockchain Explorer, Smart Contracts, DAO
 8. AI Chat (GPT-5.2)
 9. Region-based Compliance (5 regions)
@@ -24,8 +24,8 @@ Build a deterministic, tokenized, instant-settlement, multi-asset exchange for e
 12. i18n (6 languages, 155+ keys)
 13. IoT Warehouse Tokenization (6 tabs)
 14. EVM Bridge (4 chains, 5 contracts)
-15. Portfolio Performance Dashboard (4 tabs, PnL attribution)
-16. **Social Trading Feed** (Live feed, 8 trader leaderboard, trending assets, copy-trade, sentiment)
+15. Portfolio Performance Dashboard (4 tabs)
+16. Social Trading Feed (4 tabs, copy-trade)
 
 ## Test Credentials
 | Email | Password | Role |
@@ -36,6 +36,6 @@ Build a deterministic, tokenized, instant-settlement, multi-asset exchange for e
 | regulator_1@e4n.com | Admin@123 | regulator |
 
 ## Backlog
-- P3: Production EVM integration (real Arbitrum/Avalanche)
+- P3: Production EVM integration
 - P3: Mobile app (React Native)
 - P3: Carbon credit NFT certificates

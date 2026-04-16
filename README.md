@@ -11,7 +11,7 @@
 [![TailwindCSS](https://img.shields.io/badge/Styling-TailwindCSS-06B6D4?style=flat-square&logo=tailwindcss)](https://tailwindcss.com)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 
-**80+ API Endpoints · 19 Frontend Pages · 16 E2E Scenarios · 7 Backend Modules · 6 Languages**
+**110+ API Endpoints · 21 Frontend Pages · 16 E2E Scenarios · 11 Backend Modules · 6 Languages**
 
 [Live Demo](#interactive-demo) · [Architecture](#system-architecture) · [Value Agents](#feature-wise-value-agents) · [Quick Start](#quick-start) · [API Reference](#api-reference)
 
@@ -141,6 +141,15 @@ graph TB
             PRED["Prediction Markets<br/>Kalshi/Polymarket-Style<br/>13 Event Contracts"]
             PINN["PINN Models<br/>OU Mean-Reversion<br/>Supply-Demand Eq."]
         end
+        subgraph SOCIAL["Engagement Layer"]
+            FEED["Social Feed<br/>80 Events · 5 Categories"]
+            LEADER["Leaderboard<br/>8 Traders · Copy Trade"]
+            PERF["Portfolio Performance<br/>PnL Attribution · Risk"]
+        end
+        subgraph BRIDGE["Cross-Chain Layer"]
+            EVM["EVM Bridge<br/>4 Chains · Gas Oracle"]
+            WHTOK["Warehouse Tokens<br/>Mint/Burn · Inventory"]
+        end
     end
 
     subgraph DATA["Data Layer"]
@@ -164,6 +173,8 @@ graph TB
     INFRA --> DATA
     INFRA --> EXTERNAL
     ML --> DATA
+    SOCIAL --> DATA
+    BRIDGE --> DATA
 
     AUTH --> OBJSTORE
 
@@ -504,6 +515,26 @@ Each module in E4N acts as an autonomous "value agent" — a self-contained engi
 | **Capabilities** | 4 model types across 5 assets, 95% confidence intervals, bull/bear/base scenarios, carbon-specific regulatory regime awareness |
 | **Key metric** | Mean-reversion half-life calibrated per asset class (e.g., H2O: 35d, CARBON: 349d) |
 
+### 15. Social Trading & Copy Trade Agent
+
+| Aspect | Detail |
+|---|---|
+| **What it does** | Provides anonymized live activity feed, leaderboard rankings, trending assets, and one-click copy trading |
+| **Who benefits** | Retail traders seeking social proof, new users learning market dynamics |
+| **Value created** | Drives engagement through transparency; retail users learn from institutional patterns |
+| **Capabilities** | 80+ seeded events, 8 ranked traders with equity curves, momentum signals, copy-trade with allocation %, market sentiment aggregation |
+| **Key metric** | 83 active traders, 5 trending assets with hot/warm/cold signals |
+
+### 16. Portfolio Performance Agent
+
+| Aspect | Detail |
+|---|---|
+| **What it does** | Unified PnL attribution across trading, prediction markets, and carbon credits with institutional risk metrics |
+| **Who benefits** | All traders, portfolio managers, risk teams |
+| **Value created** | Single pane of glass for cross-product returns; identifies which strategy drives performance |
+| **Capabilities** | Sharpe/Sortino/Calmar ratios, 60-day value history, max drawdown chart, monthly stacked attribution, per-asset breakdown |
+| **Key metric** | Real-time PnL decomposition across 3 products with risk-adjusted metrics |
+
 ---
 
 ## Business Impact & Metrics
@@ -543,7 +574,7 @@ Value Distribution:
 
 ## Tech Stack
 
-### Backend Architecture (7 Modules, 80+ Endpoints)
+### Backend Architecture (11 Modules, 110+ Endpoints)
 
 | Module | File | Purpose | Endpoints |
 |---|---|---|---|
@@ -554,8 +585,12 @@ Value Distribution:
 | **Hardening** | `hardening.py` | ZK-Identity, Volatility Breakers, Oracle Bridge, Insurance, SAR, Custody, Debt Market | 16 |
 | **Prediction Markets** | `prediction_engine.py` | Kalshi/Polymarket-style event contracts, AMM pricing, CLOB order book, position P&L | 12 |
 | **PINN Models** | `pinn_models.py` | Physics-Informed Neural Networks: OU mean-reversion, supply-demand equilibrium, vol surface, carbon forecaster | 6 |
+| **Warehouse Tokenization** | `warehouse_tokenization.py` | Receipt token lifecycle (mint/burn/transfer), inventory management, alerts, compliance, analytics | 8 |
+| **EVM Bridge** | `evm_bridge.py` | Cross-chain bridge (4 chains), gas oracle, smart contract deployment, ABI viewer | 10 |
+| **Portfolio Performance** | `portfolio_performance.py` | Unified PnL attribution, value history, risk metrics (Sharpe/Sortino/Calmar), product breakdown | 4 |
+| **Social Trading** | `social_feed.py` | Live activity feed, trader leaderboard, trending assets, copy-trade, market sentiment | 8 |
 
-### Frontend Architecture (19 Pages)
+### Frontend Architecture (21 Pages)
 
 | Page | Route | Function |
 |---|---|---|
@@ -565,19 +600,21 @@ Value Distribution:
 | Trading | `/trading` | Candlestick charts, order book, order form |
 | Carbon Credits | `/carbon-credits` | MRV lifecycle, issue/verify/exchange/retire |
 | Carbon Calculator | `/carbon-calculator` | Organization emission calculator |
-| Portfolio | `/portfolio` | Holdings, allocation, risk scoring |
+| Portfolio | `/portfolio` | **Performance dashboard** with PnL attribution, holdings, risk metrics |
 | Compliance | `/compliance` | Region-based rules, user status |
 | Predictions | `/predictions` | Kalshi-style event contract trading with AMM pricing |
+| Social Trading | `/social` | **Live feed**, top traders, trending assets, copy-trade, sentiment |
 | PINN Models | `/pinn-models` | Physics-informed ML forecasting dashboard |
 | Blockchain | `/blockchain` | Explorer with gas oracle, mempool, validators |
 | Smart Contracts | `/smart-contracts` | Deploy and execute contracts |
 | Governance | `/governance` | DAO proposals and voting |
-| Warehouses | `/warehouses` | IoT sensor monitoring |
+| Warehouses | `/warehouses` | **Deep tokenization**: sensors, tokens, inventory, alerts, compliance, analytics |
+| EVM Bridge | `/evm-bridge` | **Cross-chain bridge**, gas oracle, contract deployment, transfer history |
 | Market Guards | `/market-guards` | Concentration, RFQ, disputes, ESG |
 | Hardening | `/hardening` | Volatility breakers, ZK-ID, insurance, SAR |
 | KYC | `/kyc` | Document upload and verification |
 | Email Alerts | `/emails` | Simulated email notification inbox |
-| Settings | `/settings` | Language, MFA, profile, report exports |
+| Settings | `/settings` | Language (6), MFA, profile, report exports |
 | Admin | `/admin` | Regulator dashboard (role-restricted) |
 
 ### Technology Matrix
@@ -586,7 +623,7 @@ Value Distribution:
 |---|---|---|---|
 | Runtime | Python | 3.11+ | Backend runtime |
 | Framework | FastAPI | 0.110+ | REST API + WebSocket |
-| Database | MongoDB | 7.x | Document store (25+ collections) |
+| Database | MongoDB | 7.x | Document store (35+ collections) |
 | ORM | Motor | 3.3+ | Async MongoDB driver |
 | Auth | PyJWT + bcrypt | Latest | JWT tokens + password hashing |
 | MFA | pyotp | Latest | TOTP two-factor auth |
@@ -618,7 +655,11 @@ e4n/
 │   ├── contracts.py            # Phase 3A (guards, RFQ, quality oracle, disputes, ESG)
 │   ├── hardening.py            # Phase 3B (ZK-identity, breakers, oracle bridge, insurance, SAR)
 │   ├── prediction_engine.py    # Kalshi/Polymarket-style event contract markets
-│   └── pinn_models.py          # Physics-Informed Neural Network pricing models
+│   ├── pinn_models.py          # Physics-Informed Neural Network pricing models
+│   ├── warehouse_tokenization.py  # Deep warehouse tokenization (mint/burn, inventory, compliance)
+│   ├── evm_bridge.py           # EVM cross-chain bridge (4 chains, gas oracle, contracts)
+│   ├── portfolio_performance.py   # PnL attribution, risk metrics, value history
+│   └── social_feed.py          # Social trading feed, leaderboard, trending, copy-trade
 │
 ├── frontend/
 │   ├── .env                    # Frontend environment
@@ -627,24 +668,24 @@ e4n/
 │   └── src/
 │       ├── index.css           # Global styles + CSS variables
 │       ├── App.css             # Glassmorphism utilities
-│       ├── App.js              # Router (21 routes) + Providers
+│       ├── App.js              # Router (23 routes) + Providers
 │       ├── contexts/
 │       │   ├── AuthContext.js   # Auth state + API helper
 │       │   └── I18nContext.js   # i18n (6 languages)
 │       ├── components/
 │       │   ├── Layout.js       # Sidebar + notifications + AI chat
-│       │   ├── Sidebar.js      # Navigation (18 items)
+│       │   ├── Sidebar.js      # Navigation (20 items)
 │       │   ├── AIChat.js       # GPT-5.2 chat panel
 │       │   ├── CandlestickChart.js  # OHLCV with indicators
 │       │   ├── NotificationBell.js  # Real-time notification dropdown
 │       │   └── ui/             # Shadcn/UI components
-│       └── pages/              # 19 page components
+│       └── pages/              # 21 page components
 │
 ├── memory/
 │   ├── PRD.md                  # Product Requirements Document
 │   └── test_credentials.md     # Demo credentials
 │
-├── test_reports/               # Automated test results (7 iterations)
+├── test_reports/               # Automated test results (10 iterations)
 ├── README.md                   # This file
 ├── LICENSE                     # MIT License
 └── .gitignore
@@ -882,9 +923,69 @@ yarn start  # Available at http://localhost:3000
 
 </details>
 
----
+<details>
+<summary><strong>Warehouse Tokenization — warehouse_tokenization.py (8 endpoints)</strong></summary>
 
-## Prediction Markets
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| GET | `/api/warehouses/{id}/token-info` | No | Token supply, holders, events |
+| POST | `/api/warehouses/tokens/mint` | Yes | Mint receipt tokens |
+| POST | `/api/warehouses/tokens/burn` | Yes | Burn tokens |
+| POST | `/api/warehouses/tokens/transfer` | Yes | Transfer tokens |
+| GET | `/api/warehouses/{id}/inventory` | No | Inventory lots |
+| POST | `/api/warehouses/inventory/deposit` | Yes | Deposit commodity |
+| GET | `/api/warehouses/{id}/alerts` | No | Alert history |
+| GET | `/api/warehouses/{id}/compliance` | No | Compliance certifications |
+| GET | `/api/warehouses/{id}/analytics` | No | Utilization analytics |
+
+</details>
+
+<details>
+<summary><strong>EVM Bridge — evm_bridge.py (10 endpoints)</strong></summary>
+
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| GET | `/api/evm/chains` | No | Supported chains |
+| GET | `/api/evm/bridge/stats` | No | Bridge TVL and volume |
+| POST | `/api/evm/bridge/transfer` | Yes | Cross-chain transfer |
+| GET | `/api/evm/bridge/transfers` | Yes | User transfers |
+| GET | `/api/evm/bridge/transfers/all` | No | All transfers |
+| GET | `/api/evm/gas-oracle` | No | Gas comparison |
+| GET | `/api/evm/contracts/templates` | No | Contract ABIs |
+| POST | `/api/evm/contracts/deploy` | Yes | Deploy contract |
+| GET | `/api/evm/contracts/deployments` | No | Deployed contracts |
+
+</details>
+
+<details>
+<summary><strong>Portfolio Performance — portfolio_performance.py (4 endpoints)</strong></summary>
+
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| GET | `/api/portfolio/performance` | Yes | Unified PnL attribution |
+| GET | `/api/portfolio/value-history` | Yes | 60-day value series |
+| GET | `/api/portfolio/risk-metrics` | Yes | Sharpe, Sortino, drawdown |
+| GET | `/api/portfolio/product-breakdown` | Yes | Per-asset & monthly PnL |
+
+</details>
+
+<details>
+<summary><strong>Social Trading — social_feed.py (8 endpoints)</strong></summary>
+
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| GET | `/api/social/feed` | No | Activity feed |
+| GET | `/api/social/feed/stats` | No | Feed stats & sentiment |
+| GET | `/api/social/leaderboard` | No | Top traders |
+| GET | `/api/social/leaderboard/{id}` | No | Trader profile |
+| GET | `/api/social/trending` | No | Trending assets |
+| GET | `/api/social/sentiment` | No | Market sentiment |
+| POST | `/api/social/copy-trade` | Yes | Copy trader |
+| GET | `/api/social/copy-trades` | Yes | Copy subscriptions |
+
+</details>
+
+---
 
 ### Kalshi/Polymarket-Style Event Contract Trading
 
@@ -998,6 +1099,148 @@ The Carbon Price Forecaster includes regulatory regime awareness with weighted p
 
 ---
 
+## Warehouse Tokenization (Deep)
+
+### Receipt Token Lifecycle & Inventory Management
+
+The Warehouses page provides a **6-tab deep interface** for managing physical commodity storage with on-chain tokenization:
+
+| Tab | Features |
+|---|---|
+| **Sensors** | 4 live IoT sensors (temperature, humidity, weight, air quality) with 24h history charts |
+| **Tokens** | Receipt token supply (total/circulating/locked), holder distribution, mint/burn actions, transfer history |
+| **Inventory** | Commodity lots with grade (A/B/C), deposit value, expiry dates, tokenization status |
+| **Alerts** | Severity-tagged alerts (critical/warning/info) with on-chain TX hashes and resolution status |
+| **Compliance** | Regional certifications (ISO 22000, USDA, FSSAI, etc.), audit schedule, insurance coverage |
+| **Analytics** | 30-day utilization trends, token value over time, deposit/withdrawal activity charts |
+
+### API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/warehouses/{id}/token-info` | Token supply, holders, recent events |
+| POST | `/api/warehouses/tokens/mint` | Mint receipt tokens (auth) |
+| POST | `/api/warehouses/tokens/burn` | Burn tokens on withdrawal (auth) |
+| POST | `/api/warehouses/tokens/transfer` | Transfer tokens (auth) |
+| GET | `/api/warehouses/{id}/inventory` | Inventory lots with summary |
+| POST | `/api/warehouses/inventory/deposit` | Deposit commodity (auth) |
+| POST | `/api/warehouses/inventory/withdraw` | Withdraw commodity (auth) |
+| GET | `/api/warehouses/{id}/alerts` | Historical alerts |
+| GET | `/api/warehouses/{id}/compliance` | Certifications & compliance score |
+| GET | `/api/warehouses/{id}/analytics` | Utilization trends & value analytics |
+
+---
+
+## EVM Bridge & Cross-Chain Contracts
+
+### Production-Ready Multi-Chain Architecture
+
+E4N supports cross-chain asset transfers across **4 EVM-compatible chains** with a simulated bridge protocol:
+
+| Chain | Type | Block Time | Finality | Gas Cost |
+|---|---|---|---|---|
+| **E4N Layer 2** | Optimistic Rollup (PoA) | 0.25s | 1 block | ~$0 |
+| **Ethereum Mainnet** | PoS L1 | 12s | 64 blocks | ~$0.02-0.12 |
+| **Arbitrum One** | Optimistic Rollup | 0.25s | 7 blocks | ~$0.001 |
+| **Avalanche C-Chain** | Subnet (Snowball) | 2s | 2 blocks | ~$0.002 |
+
+### Smart Contract Templates (EVM)
+
+| Contract | Standard | Functions | Use Case |
+|---|---|---|---|
+| **E4N Escrow** | Custom | deposit, release, refund, getBalance | Conditional settlement |
+| **Atomic Swap** | Custom | initiateSwap, completeSwap, cancelSwap | Cross-asset exchange |
+| **DvP Settlement** | Custom | lockAssets, settle, rollback | Delivery vs Payment |
+| **Warehouse Receipt** | ERC-1155 | mint, burn, balanceOf | Tokenized inventory |
+| **Carbon Retirement** | Custom | retireCredits, verifyCertificate | Emission offset registry |
+
+### API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/evm/chains` | List supported chains |
+| GET | `/api/evm/bridge/stats` | TVL, volume, transfer count |
+| POST | `/api/evm/bridge/transfer` | Initiate cross-chain transfer (auth) |
+| GET | `/api/evm/bridge/transfers/all` | All bridge transfers |
+| GET | `/api/evm/gas-oracle` | Gas cost comparison across chains |
+| GET | `/api/evm/contracts/templates` | 5 contract templates with ABI |
+| POST | `/api/evm/contracts/deploy` | Deploy contract to chain (auth) |
+| GET | `/api/evm/contracts/deployments` | Deployed contracts |
+
+---
+
+## Portfolio Performance Dashboard
+
+### Unified PnL Attribution Engine
+
+The Portfolio page features a **4-tab performance dashboard** providing institutional-grade analytics:
+
+| Tab | Features |
+|---|---|
+| **Performance** | 60-day portfolio value chart, daily returns heatmap, 9 risk metrics (Sharpe, Sortino, Calmar, etc.), best/worst trade |
+| **P&L Attribution** | Per-product PnL cards (Trading/Predictions/Carbon), monthly stacked attribution chart, per-asset breakdown |
+| **Holdings** | Allocation pie chart, holdings table with 24h change |
+| **Risk** | Drawdown chart, risk score gauge, volatility metrics, recommendations |
+
+### Risk Metrics
+
+| Metric | Description |
+|---|---|
+| Sharpe Ratio | Risk-adjusted return (annualized) |
+| Sortino Ratio | Downside-risk adjusted return |
+| Calmar Ratio | Return / max drawdown |
+| Max Drawdown | Largest peak-to-trough decline |
+| Profit Factor | Gross profit / gross loss |
+| Win Rate | % of profitable trades |
+
+### API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/portfolio/performance` | Unified PnL with trading/predictions/carbon attribution |
+| GET | `/api/portfolio/value-history` | 60-day portfolio value time series |
+| GET | `/api/portfolio/risk-metrics` | Sharpe, Sortino, Calmar, drawdown chart, daily returns |
+| GET | `/api/portfolio/product-breakdown` | Per-asset PnL, per-prediction PnL, monthly attribution |
+
+---
+
+## Social Trading Feed
+
+### Live Activity Feed, Leaderboard & Copy Trading
+
+The Social Trading page drives engagement through **transparency and social proof**:
+
+| Tab | Features |
+|---|---|
+| **Live Feed** | Real-time anonymized activity stream (trades, predictions, carbon retirements, bridge transfers, governance votes) with category filters and reactions |
+| **Top Traders** | 8 ranked traders with PnL, win rate, Sharpe, equity curve, badges. One-click Copy button with allocation % |
+| **Trending** | 5 assets ranked by momentum score with sparkline charts, buy pressure, whale activity, social mentions |
+| **Sentiment** | Per-asset buy/sell pressure bars, prediction market sentiment aggregated by category |
+
+### Trader Profiles
+
+Each leaderboard trader has:
+- **Anonymized identity** (e.g., "S. Nakamoto", "A. Okafor") with style tags
+- **30-day equity curve** with full stats (PnL, win rate, trades, Sharpe, max drawdown)
+- **Open positions** with per-asset PnL
+- **Badges**: Top 1%, ESG Pioneer, Prediction Master, Whale, etc.
+- **Copy trade**: One-click portfolio replication with configurable allocation
+
+### API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/social/feed` | Activity feed (filterable by category) |
+| GET | `/api/social/feed/stats` | Feed statistics, sentiment score |
+| GET | `/api/social/leaderboard` | Top traders ranked by PnL |
+| GET | `/api/social/leaderboard/{id}` | Trader profile with recent activity |
+| GET | `/api/social/trending` | Trending assets with momentum scores |
+| GET | `/api/social/sentiment` | Asset + prediction market sentiment |
+| POST | `/api/social/copy-trade` | Copy a trader's positions (auth) |
+| GET | `/api/social/copy-trades` | User's copy trade subscriptions (auth) |
+
+---
+
 ## Smart Contract Simulations
 
 | Contract | Type | Methods | Purpose |
@@ -1098,6 +1341,7 @@ volumes:
 - [x] Phase 3C: Hardening (Sybil Guard, Volatility Breakers, Oracle Bridge, Insurance, SAR, Custody)
 - [x] Phase 4: Scale (Blockchain Sim, DAO, IoT, i18n, Landing Page, Demo Mode)
 - [x] Phase 5: ML & Prediction (Kalshi-style Prediction Markets, PINN Deterministic Models, Comprehensive i18n)
+- [x] Phase 6: Depth & Integration (Warehouse Tokenization Deep, EVM Bridge & Contracts, Portfolio Performance Dashboard, Social Trading Feed)
 
 ### Future
 - [ ] Production EVM integration (Arbitrum/Avalanche subnet)
@@ -1109,7 +1353,7 @@ volumes:
 
 ---
 
-## Test Results (7 Iterations)
+## Test Results (10 Iterations)
 
 | Iteration | Backend | Frontend | Key Features Tested |
 |---|---|---|---|
@@ -1120,6 +1364,9 @@ volumes:
 | 5 | 98% (50/51) | 100% | WebSocket, Demo Mode |
 | 6 | 98.5% (64/65) | 95% | Hardening Layer |
 | 7 | 100% (24/24) | 100% | Prediction Markets, PINN Models |
+| 8 | 100% (26/26) | 100% | Warehouse Tokenization, EVM Bridge |
+| 9 | 100% (40/40) | 100% | Portfolio Performance Dashboard |
+| 10 | 94.7% (36/38) | 100% | Social Trading Feed |
 
 ---
 
@@ -1133,6 +1380,6 @@ MIT License — see [LICENSE](LICENSE)
 
 **Built with purpose. Traded with trust. Settled with certainty.**
 
-*E4N — Exchange for Necessities · 80+ Endpoints · 19 Pages · 16 Scenarios · 14 Value Agents · 6 Languages*
+*E4N — Exchange for Necessities · 110+ Endpoints · 21 Pages · 16 Value Agents · 11 Modules · 6 Languages · 10 Test Iterations*
 
 </div>
