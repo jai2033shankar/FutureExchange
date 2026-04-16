@@ -5,7 +5,7 @@ Build a deterministic, tokenized, instant-settlement, multi-asset exchange for e
 
 ## Architecture
 - **Frontend**: React 18 + Shadcn/UI + Recharts + Framer Motion + Glassmorphism CSS (20 pages)
-- **Backend**: FastAPI (9 modules, 95+ endpoints) + Motor (async MongoDB) + JWT auth
+- **Backend**: FastAPI (10 modules, 100+ endpoints) + Motor (async MongoDB) + JWT auth
 - **Database**: MongoDB (30+ collections)
 - **AI**: OpenAI GPT-5.2 via Emergent LLM Key
 
@@ -23,8 +23,9 @@ Build a deterministic, tokenized, instant-settlement, multi-asset exchange for e
 11. Kalshi/Polymarket Prediction Markets (13 markets, 5 categories, AMM)
 12. PINN Deterministic Models (4 models, 5 assets)
 13. Multi-language i18n (EN, ES, FR, ZH, HI, AR — 155+ keys)
-14. **IoT Warehouse Tokenization Deep** (Token lifecycle, Inventory mgmt, Alerts, Compliance, Analytics)
-15. **EVM Bridge & Contracts** (4 chains, Cross-chain transfers, Gas oracle, 5 contract templates, Deployment)
+14. IoT Warehouse Tokenization Deep (Token lifecycle, Inventory, Alerts, Compliance, Analytics)
+15. EVM Bridge & Contracts (4 chains, Cross-chain transfers, Gas oracle, 5 contract templates)
+16. **Portfolio Performance Dashboard** (Unified PnL attribution: Trading + Predictions + Carbon, 60d value chart, Sharpe/Sortino/Calmar/Drawdown, monthly stacked attribution, per-asset breakdown)
 
 ## Test Credentials
 | Email | Password | Role |
@@ -37,11 +38,12 @@ Build a deterministic, tokenized, instant-settlement, multi-asset exchange for e
 ## Mocked/Simulated
 - ZK-Identity, Blockchain execution, Chainlink Oracles, Email notifications
 - PINN models (Ornstein-Uhlenbeck simulation)
-- EVM Bridge (no real L1/L2 connection), Gas oracle, Contract deployment
+- EVM Bridge (no real L1/L2), Gas oracle, Contract deployment
 - Warehouse sensor readings
+- Portfolio daily returns (gaussian simulation), risk metrics (computed from simulated returns)
 
 ## Backlog
-- P3: Production EVM integration (Arbitrum/Avalanche real connection)
+- P3: Production EVM integration (real Arbitrum/Avalanche)
 - P3: Mobile app (React Native)
 - P3: Real-time WebSocket order book
 - P3: Carbon credit NFT certificates
