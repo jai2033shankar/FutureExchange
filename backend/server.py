@@ -25,6 +25,8 @@ from contracts import contracts_router, init_contracts, seed_contract_scenarios
 from hardening import hardening_router, init_hardening, seed_hardening_data
 from prediction_engine import predictions_router as pred_v2_router, init_predictions as init_pred_v2, seed_prediction_markets as seed_pred_v2
 from pinn_models import pinn_router, init_pinn
+from warehouse_tokenization import wh_token_router, init_wh_tokenization, seed_wh_tokenization
+from evm_bridge import evm_router, init_evm_bridge, seed_evm_bridge
 
 # MongoDB connection
 mongo_url = os.environ['MONGO_URL']
@@ -1111,6 +1113,8 @@ app.include_router(contracts_router)
 app.include_router(hardening_router)
 app.include_router(pred_v2_router)
 app.include_router(pinn_router)
+app.include_router(wh_token_router)
+app.include_router(evm_router)
 
 # WebSocket endpoint (on main app, not router)
 from fastapi import WebSocket, WebSocketDisconnect
@@ -1143,10 +1147,14 @@ async def startup_event():
     init_hardening(db, get_current_user)
     init_pred_v2(db, get_current_user)
     init_pinn(db, get_current_user)
+    init_wh_tokenization(db, get_current_user)
+    init_evm_bridge(db, get_current_user)
     await seed_blockchain_data()
     await seed_contract_scenarios()
     await seed_hardening_data()
     await seed_pred_v2()
+    await seed_wh_tokenization()
+    await seed_evm_bridge()
     try:
         init_storage()
     except Exception as e:

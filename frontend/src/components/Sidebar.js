@@ -5,7 +5,7 @@ import { useI18n } from '@/contexts/I18nContext';
 import {
   LayoutDashboard, ArrowLeftRight, Leaf, Wallet, ShieldCheck, Shield, Lock,
   TrendingUp, Settings, LogOut, X, Users, Blocks, Vote, FileCode,
-  Warehouse, Calculator, FileCheck, Mail, Brain
+  Warehouse, Calculator, FileCheck, Mail, Brain, Globe
 } from 'lucide-react';
 
 const navItems = [
@@ -23,6 +23,7 @@ const navItems = [
   { path: '/market-guards', i18nKey: 'nav.market_guards', label: 'Market Guards', icon: Shield, roles: ['retail', 'institutional', 'regulator'] },
   { path: '/hardening', i18nKey: 'nav.hardening', label: 'Hardening', icon: Lock, roles: ['retail', 'institutional', 'regulator'] },
   { path: '/pinn-models', i18nKey: 'nav.pinn_models', label: 'PINN Models', icon: Brain, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/evm-bridge', i18nKey: 'nav.evm_bridge', label: 'EVM Bridge', icon: Globe, roles: ['retail', 'institutional', 'regulator'] },
   { path: '/kyc', i18nKey: 'nav.kyc', label: 'KYC Verification', icon: FileCheck, roles: ['retail', 'institutional', 'regulator'] },
   { path: '/emails', i18nKey: 'nav.emails', label: 'Email Alerts', icon: Mail, roles: ['retail', 'institutional', 'regulator'] },
   { path: '/settings', i18nKey: 'nav.settings', label: 'Settings', icon: Settings, roles: ['retail', 'institutional', 'regulator'] },
