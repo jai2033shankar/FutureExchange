@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-04-16T08:35:13.730277",
-  "total_tests": 50,
-  "passed_tests": 49,
+  "timestamp": "2026-04-16T08:53:01.380889",
+  "total_tests": 51,
+  "passed_tests": 50,
   "failed_tests": 1,
   "success_rate": 98.0,
   "failures": [
@@ -194,7 +194,7 @@
           "CARBON": 5
         },
         "trade_count": 24,
-        "open_orders": 0,
+        "open_orders": 2,
         "carbon_balance": 5,
         "total_market_trades": 50,
         "asset_prices": {
@@ -1618,6 +1618,54 @@
       "details": "Success",
       "response_data": [
         {
+          "id": "a296db79-8efc-4c7d-974e-dfc5ec372d58",
+          "issuer_id": "69e08124164cb3c5753456f9",
+          "project_name": "Test Solar Project",
+          "project_type": "renewable_energy",
+          "quantity_tonnes": 1000.0,
+          "available_tonnes": 1000.0,
+          "retired_tonnes": 0,
+          "vintage_year": 2025,
+          "region": "US",
+          "methodology": "CDM",
+          "description": "Test carbon credit project",
+          "price_per_tonne": 45.0,
+          "status": "pending",
+          "created_at": "2026-04-16T08:52:28.612972+00:00"
+        },
+        {
+          "id": "96a06f8f-389b-412c-a35d-b3e1ac5dcbe4",
+          "issuer_id": "69e08124164cb3c5753456f8",
+          "project_name": "Demo Solar Farm",
+          "project_type": "renewable_energy",
+          "quantity_tonnes": 500,
+          "available_tonnes": 500,
+          "retired_tonnes": 0,
+          "vintage_year": 2026,
+          "region": "US",
+          "methodology": "Gold Standard",
+          "description": "Demo project",
+          "price_per_tonne": 42.0,
+          "status": "pending",
+          "created_at": "2026-04-16T08:50:17.653293+00:00"
+        },
+        {
+          "id": "24c8d4ff-5335-40e1-96a7-a5c96c9372d5",
+          "issuer_id": "69e08124164cb3c5753456f9",
+          "project_name": "Test Solar Project",
+          "project_type": "renewable_energy",
+          "quantity_tonnes": 1000.0,
+          "available_tonnes": 1000.0,
+          "retired_tonnes": 0,
+          "vintage_year": 2025,
+          "region": "US",
+          "methodology": "CDM",
+          "description": "Test carbon credit project",
+          "price_per_tonne": 45.0,
+          "status": "pending",
+          "created_at": "2026-04-16T08:35:11.632905+00:00"
+        },
+        {
           "id": "2fd58166-be2e-4126-ab5c-801c3115c484",
           "issuer_id": "69e08124164cb3c5753456f9",
           "project_name": "Test Solar Project",
@@ -1783,16 +1831,10 @@
       "success": true,
       "details": "Success",
       "response_data": {
-        "total_credits": 10,
-        "total_tonnes": 120000.0,
-        "total_retired_tonnes": 17292.420000000002,
+        "total_credits": 13,
+        "total_tonnes": 122500.0,
+        "total_retired_tonnes": 17292.42,
         "by_status": [
-          {
-            "count": 1,
-            "total_tonnes": 12000,
-            "retired_tonnes": 3599.74,
-            "status": "issued"
-          },
           {
             "count": 4,
             "total_tonnes": 89000,
@@ -1800,23 +1842,19 @@
             "status": "verified"
           },
           {
-            "count": 5,
-            "total_tonnes": 19000.0,
+            "count": 8,
+            "total_tonnes": 21500.0,
             "retired_tonnes": 2278.04,
             "status": "pending"
+          },
+          {
+            "count": 1,
+            "total_tonnes": 12000,
+            "retired_tonnes": 3599.74,
+            "status": "issued"
           }
         ],
         "by_region": [
-          {
-            "region": "US",
-            "total_tonnes": 16000.0,
-            "count": 5
-          },
-          {
-            "region": "AFRICA",
-            "total_tonnes": 8000,
-            "count": 1
-          },
           {
             "region": "LATAM",
             "total_tonnes": 50000,
@@ -1826,6 +1864,16 @@
             "region": "EU",
             "total_tonnes": 15000,
             "count": 1
+          },
+          {
+            "region": "AFRICA",
+            "total_tonnes": 8000,
+            "count": 1
+          },
+          {
+            "region": "US",
+            "total_tonnes": 18500.0,
+            "count": 8
           },
           {
             "region": "APAC",
@@ -1850,14 +1898,14 @@
             "count": 1
           },
           {
-            "type": "renewable_energy",
-            "total_tonnes": 44000.0,
-            "count": 6
-          },
-          {
             "type": "forestry",
             "total_tonnes": 50000,
             "count": 1
+          },
+          {
+            "type": "renewable_energy",
+            "total_tonnes": 46500.0,
+            "count": 9
           }
         ]
       }
@@ -1866,7 +1914,7 @@
       "success": true,
       "details": "Success",
       "response_data": {
-        "id": "24c8d4ff-5335-40e1-96a7-a5c96c9372d5",
+        "id": "a6dfb7e8-d499-49ed-aa7f-fb2b2a3f03bc",
         "issuer_id": "69e08124164cb3c5753456f9",
         "project_name": "Test Solar Project",
         "project_type": "renewable_energy",
@@ -1879,7 +1927,7 @@
         "description": "Test carbon credit project",
         "price_per_tonne": 45.0,
         "status": "pending",
-        "created_at": "2026-04-16T08:35:11.632905+00:00"
+        "created_at": "2026-04-16T08:52:59.453764+00:00"
       }
     },
     "Get compliance rules": {
@@ -2083,7 +2131,7 @@
           "created_at": "2026-04-16T06:26:45.378847+00:00"
         },
         "total_trades": 24,
-        "last_checked": "2026-04-16T08:35:11.808176+00:00"
+        "last_checked": "2026-04-16T08:52:59.663633+00:00"
       }
     },
     "Get predictions": {
@@ -2499,6 +2547,68 @@
       "success": true,
       "details": "Success",
       "response_data": [
+        {
+          "id": "2bca8f58-9016-43db-bb0d-f1f4c221d801",
+          "user_id": "69e08124164cb3c5753456f8",
+          "user_name": "Alex Chen",
+          "asset_symbol": "RICE",
+          "order_type": "stop-loss",
+          "side": "sell",
+          "quantity": 10.0,
+          "trigger_price": 0.8,
+          "price": 0.8,
+          "total": 8.0,
+          "settlement_token": "USD",
+          "status": "pending_trigger",
+          "filled_quantity": 0,
+          "created_at": "2026-04-16T08:52:29.519628+00:00"
+        },
+        {
+          "id": "e1637ddf-817c-4925-810f-fc896d0af6bb",
+          "user_id": "69e08124164cb3c5753456f8",
+          "user_name": "Alex Chen",
+          "asset_symbol": "CARBON",
+          "order_type": "market",
+          "side": "buy",
+          "quantity": 10.0,
+          "price": 61.5403,
+          "total": 615.4,
+          "settlement_token": "USD",
+          "status": "open",
+          "filled_quantity": 0.0,
+          "created_at": "2026-04-16T08:51:13.461976+00:00"
+        },
+        {
+          "id": "e55e18e7-7bd0-4e89-b489-ac3d18059f28",
+          "user_id": "69e08124164cb3c5753456f8",
+          "user_name": "Demo User",
+          "asset_symbol": "CARBON",
+          "order_type": "limit",
+          "side": "buy",
+          "quantity": 5,
+          "price": 60.31,
+          "total": 301.55,
+          "settlement_token": "USD",
+          "status": "open",
+          "filled_quantity": 0,
+          "created_at": "2026-04-16T08:50:17.652822+00:00"
+        },
+        {
+          "id": "8e0a68c1-e783-4fc2-9ea0-a18cc6db147a",
+          "user_id": "69e08124164cb3c5753456f8",
+          "user_name": "Alex Chen",
+          "asset_symbol": "RICE",
+          "order_type": "stop-loss",
+          "side": "sell",
+          "quantity": 10.0,
+          "trigger_price": 0.8,
+          "price": 0.8,
+          "total": 8.0,
+          "settlement_token": "USD",
+          "status": "pending_trigger",
+          "filled_quantity": 0,
+          "created_at": "2026-04-16T08:35:12.633447+00:00"
+        },
         {
           "id": "c25a06ca-0587-4203-b55c-c729ec32cfbf",
           "user_id": "69e08124164cb3c5753456f8",
@@ -3743,12 +3853,12 @@
       "response_data": {
         "total_users": 4,
         "total_trades": 50,
-        "total_orders": 2,
-        "total_carbon_credits": 11,
+        "total_orders": 6,
+        "total_carbon_credits": 14,
         "verified_credits": 4,
-        "pending_credits": 6,
+        "pending_credits": 9,
         "total_trade_volume": 206607.15,
-        "generated_at": "2026-04-16T08:35:12.454631+00:00"
+        "generated_at": "2026-04-16T08:53:00.204842+00:00"
       }
     },
     "Get notifications": {
@@ -3756,6 +3866,69 @@
       "details": "Success",
       "response_data": {
         "notifications": [
+          {
+            "id": "f0cb0598-c7aa-4265-8662-8424c220b210",
+            "user_id": "69e08124164cb3c5753456f8",
+            "category": "order",
+            "message": "Stop-loss order set for 10.0 RICE at $0.8",
+            "data": {},
+            "read": false,
+            "created_at": "2026-04-16T08:52:29.520258+00:00"
+          },
+          {
+            "id": "c752ac98-4ca6-4125-9e2a-6eda908317a8",
+            "user_id": "69e08124164cb3c5753456f8",
+            "category": "email",
+            "message": "Email: Settlement Complete - WHEAT",
+            "data": {},
+            "read": false,
+            "created_at": "2026-04-16T08:51:20.200328+00:00"
+          },
+          {
+            "id": "ca718379-4bad-4f6c-90f4-7ac40dd058df",
+            "user_id": "69e08124164cb3c5753456f8",
+            "category": "email",
+            "message": "Email: Compliance Alert - EU",
+            "data": {},
+            "read": false,
+            "created_at": "2026-04-16T08:51:20.199546+00:00"
+          },
+          {
+            "id": "81e97844-4a55-46af-9f48-5098d229582c",
+            "user_id": "69e08124164cb3c5753456f8",
+            "category": "email",
+            "message": "Email: Carbon Credit Verified - Amazon Rainforest Conservation",
+            "data": {},
+            "read": false,
+            "created_at": "2026-04-16T08:51:20.198698+00:00"
+          },
+          {
+            "id": "147a6949-c9b0-4750-a71b-6df69295e118",
+            "user_id": "69e08124164cb3c5753456f8",
+            "category": "email",
+            "message": "Email: Trade Executed - CARBON BUY",
+            "data": {},
+            "read": false,
+            "created_at": "2026-04-16T08:51:20.197922+00:00"
+          },
+          {
+            "id": "823f29f0-f624-4394-9a54-af642a6584a0",
+            "user_id": "69e08124164cb3c5753456f8",
+            "category": "email",
+            "message": "Email: Welcome to E4N Exchange",
+            "data": {},
+            "read": false,
+            "created_at": "2026-04-16T08:51:20.196996+00:00"
+          },
+          {
+            "id": "d603cd24-8d07-4e01-abdb-d407e6b7ffeb",
+            "user_id": "69e08124164cb3c5753456f8",
+            "category": "order",
+            "message": "Stop-loss order set for 10.0 RICE at $0.8",
+            "data": {},
+            "read": false,
+            "created_at": "2026-04-16T08:35:12.633883+00:00"
+          },
           {
             "id": "1ac0a67e-425b-4a6f-b8d3-57a27f50435d",
             "user_id": "69e08124164cb3c5753456f8",
@@ -3910,7 +4083,7 @@
             "created_at": "2026-04-16T07:33:40.795557+00:00"
           }
         ],
-        "unread_count": 17
+        "unread_count": 24
       }
     },
     "Carbon calculator": {
@@ -3950,7 +4123,7 @@
       "success": true,
       "details": "Success",
       "response_data": {
-        "id": "8e0a68c1-e783-4fc2-9ea0-a18cc6db147a",
+        "id": "8319232f-cabc-44f2-b963-b0fa5da12df2",
         "user_id": "69e08124164cb3c5753456f8",
         "user_name": "Alex Chen",
         "asset_symbol": "RICE",
@@ -3963,7 +4136,7 @@
         "settlement_token": "USD",
         "status": "pending_trigger",
         "filled_quantity": 0,
-        "created_at": "2026-04-16T08:35:12.633447+00:00"
+        "created_at": "2026-04-16T08:53:00.334192+00:00"
       }
     },
     "Get KYC status": {
@@ -3994,7 +4167,7 @@
         "total_users": 4,
         "total_trades": 50,
         "total_volume_usd": 206607.15,
-        "carbon_tonnes_traded": 121000.0,
+        "carbon_tonnes_traded": 123500.0,
         "total_assets": 6,
         "smart_contracts": 4,
         "compliance_regions": 5,
@@ -4168,7 +4341,7 @@
       "success": true,
       "details": "Success",
       "response_data": {
-        "id": "47a4da44-d1a5-4e40-8a76-a1265283b6fa",
+        "id": "b359ecf6-7869-416d-99ea-012ea23d4237",
         "trade_id": "",
         "user_id": "69e08124164cb3c5753456f8",
         "distance_km": 500,
@@ -4179,7 +4352,7 @@
         "footprint_tonnes_co2": 0.31,
         "offset_cost_usd": 19.08,
         "carbon_price": 61.5403,
-        "timestamp": "2026-04-16T08:35:13.165431+00:00"
+        "timestamp": "2026-04-16T08:53:00.901314+00:00"
       }
     },
     "Submit quality report": {
@@ -4193,7 +4366,7 @@
       "success": true,
       "details": "Success",
       "response_data": {
-        "id": "ce6f5975-c74e-4f56-9e9c-781018981f33",
+        "id": "2855ad65-0b09-4494-ad60-62fd1164cf06",
         "trade_id": "test_trade_001",
         "user_id": "69e08124164cb3c5753456f8",
         "amount": 1000.0,
@@ -4204,98 +4377,77 @@
         "status": "settled",
         "central_bank": "USD Central Bank",
         "legal_tender": true,
-        "timestamp": "2026-04-16T08:35:13.282283+00:00"
+        "timestamp": "2026-04-16T08:53:00.997631+00:00"
       }
     },
     "Get blockchain stats": {
       "success": true,
       "details": "Success",
       "response_data": {
-        "total_blocks": 20,
-        "total_transactions": 22,
+        "total_blocks": 22,
+        "total_transactions": 25,
         "total_contracts": 4,
         "latest_block": {
-          "index": 19,
-          "hash": "0000e9ac00f239fb7a7da96cd3134024e938207499e0b15e4467412d55a39e00",
-          "previous_hash": "0000469a9d740a8128c2ed426cda446d5d2093b343ab52f5e87796b4e6e212ec",
-          "merkle_root": "d164dfe21a6a8cf6d7bfad04b78dfa6a808db6dd53e2cd06fd163c5e632c2ce4",
-          "state_root": "8e712c97152bcc43a5385df7f8b192da355d8ecbd7bac8cd34a51ba3cccba772",
-          "timestamp": "2026-04-16T07:55:10.365495+00:00",
+          "index": 21,
+          "hash": "000092ea7dcfef1b2aeade467fa016b89bd9a85987c2db02a6e13c9f0ee00aff",
+          "previous_hash": "00004bf458ced38d742a5b549cf2affcd45362d998ccdfae1ae09fa533d81dbd",
+          "merkle_root": "6b2bab88f9451e91203d0d62d5433f9ed3a617a2995acc6a64add298d102ec4a",
+          "state_root": "9d3dd187c6eba05d48f8fc3c9bee6e94d123492f2afb2f9fd8f0b44112427e89",
+          "timestamp": "2026-04-16T08:51:17.404914+00:00",
           "block_type": "mined",
           "transactions": [
             {
-              "id": "0x7359302386b44f5dbd6f416fdb09b131",
-              "type": "trade",
-              "from": "0xRetail001",
-              "to": "0x017ee643b18546fca0468be43b0ae190",
-              "value": 60.85,
-              "data": {
-                "value": 60.85,
-                "triggered_by": "manual_mine"
-              },
-              "input_data": "0x9bac9ca7767fe071a845d416cd54d7e1aeeb579181320b499229a9dfd20f0f5d",
-              "gas": 91316,
-              "gas_price": 17.82,
-              "gas_used": 59775,
-              "fee": 0.00162725,
-              "nonce": 542,
-              "status": "confirmed",
-              "confirmations": 32,
-              "timestamp": "2026-04-16T07:55:10.362479+00:00",
-              "block_index": null
-            },
-            {
-              "id": "0xe007efcc4f724f818f1bd7dab9509cef",
+              "id": "0xc8c4eca05231446fb229a75cbc917fc0",
               "type": "transfer",
               "from": "0xRetail001",
-              "to": "0x71e09cc2f9c74f24b1499def0a514281",
-              "value": 33.66,
+              "to": "0x0d8f6e1fb82e4269934510f65f5183bf",
+              "value": 39.25,
               "data": {
-                "value": 33.66,
+                "value": 39.25,
                 "triggered_by": "manual_mine"
               },
-              "input_data": "0xfa85dafb05aeb0f3590ec42ed086155252641c8b4677e5cb40693ba9fd551ab6",
-              "gas": 57890,
-              "gas_price": 48.16,
-              "gas_used": 44675,
-              "fee": 0.00278798,
-              "nonce": 4371,
+              "input_data": "0x8d27e8a4a28e548be70fd8056179292ee7a15fbfb53c19345f8e2cdb372f1fee",
+              "gas": 43843,
+              "gas_price": 6.52,
+              "gas_used": 41127,
+              "fee": 0.00028586,
+              "nonce": 4991,
               "status": "confirmed",
-              "confirmations": 30,
-              "timestamp": "2026-04-16T07:55:10.363299+00:00",
+              "confirmations": 41,
+              "timestamp": "2026-04-16T08:51:17.402653+00:00",
               "block_index": null
             },
             {
-              "id": "0x0dd4a46c70424c149d72ea86f16f7077",
-              "type": "trade",
+              "id": "0xa49ebd8444c148e1ba2fcfc2704f49ef",
+              "type": "transfer",
               "from": "0xRetail001",
-              "to": "0x10f966c9ad3a4d9aba3472848aa9978e",
-              "value": 21.0,
+              "to": "0xd307da20110648d19599b1b585fdc4ec",
+              "value": 91.43,
               "data": {
-                "value": 21.0,
+                "value": 91.43,
                 "triggered_by": "manual_mine"
               },
-              "input_data": "0x92824c820880af9d25e7ea26371e05b11eddcf901176cd88d3d5cc0f88156fe3",
-              "gas": 52429,
-              "gas_price": 36.29,
-              "gas_used": 39331,
-              "fee": 0.00190265,
-              "nonce": 6341,
+              "input_data": "0x6b7541213af83a1b3afe0c2a04ae3cad958f0c4fe6e276faf6f08464f9acce41",
+              "gas": 45656,
+              "gas_price": 21.66,
+              "gas_used": 34208,
+              "fee": 0.00098891,
+              "nonce": 622,
               "status": "confirmed",
-              "confirmations": 49,
-              "timestamp": "2026-04-16T07:55:10.364297+00:00",
+              "confirmations": 24,
+              "timestamp": "2026-04-16T08:51:17.403672+00:00",
               "block_index": null
             }
           ],
-          "transaction_count": 3,
-          "nonce": 99151,
-          "difficulty": 5,
-          "gas_used": 201635,
+          "transaction_count": 2,
+          "nonce": 73318,
+          "difficulty": 6,
+          "gas_used": 89499,
           "gas_limit": 15000000,
-          "base_fee": 13.2,
-          "total_fees": 0.006318,
-          "size": 1705,
-          "miner": "0x9400f1b21cb527d7fa3d3eabba93557a18ebe7a2",
+          "base_fee": 7.6,
+          "total_fees": 0.001275,
+          "size": 1223,
+          "miner": "0x6f4b6612125fb3a0daecd2799dfd6c9c299424fd",
           "extra_data": "E4N Testnet v1.0"
         },
         "network": "E4N Testnet",
@@ -4304,17 +4456,122 @@
         "chain_id": 4444,
         "difficulty": 6,
         "mempool_size": 0,
-        "avg_gas_price": 28.61,
-        "tps": 0.37,
+        "avg_gas_price": 27.67,
+        "tps": 0.38,
         "gas_limit": 15000000,
         "protocol_version": "1.0.0",
-        "network_hashrate": "194 MH/s"
+        "network_hashrate": "208 MH/s"
       }
     },
     "Get blockchain blocks": {
       "success": true,
       "details": "Success",
       "response_data": [
+        {
+          "index": 21,
+          "hash": "000092ea7dcfef1b2aeade467fa016b89bd9a85987c2db02a6e13c9f0ee00aff",
+          "previous_hash": "00004bf458ced38d742a5b549cf2affcd45362d998ccdfae1ae09fa533d81dbd",
+          "merkle_root": "6b2bab88f9451e91203d0d62d5433f9ed3a617a2995acc6a64add298d102ec4a",
+          "state_root": "9d3dd187c6eba05d48f8fc3c9bee6e94d123492f2afb2f9fd8f0b44112427e89",
+          "timestamp": "2026-04-16T08:51:17.404914+00:00",
+          "block_type": "mined",
+          "transactions": [
+            {
+              "id": "0xc8c4eca05231446fb229a75cbc917fc0",
+              "type": "transfer",
+              "from": "0xRetail001",
+              "to": "0x0d8f6e1fb82e4269934510f65f5183bf",
+              "value": 39.25,
+              "data": {
+                "value": 39.25,
+                "triggered_by": "manual_mine"
+              },
+              "input_data": "0x8d27e8a4a28e548be70fd8056179292ee7a15fbfb53c19345f8e2cdb372f1fee",
+              "gas": 43843,
+              "gas_price": 6.52,
+              "gas_used": 41127,
+              "fee": 0.00028586,
+              "nonce": 4991,
+              "status": "confirmed",
+              "confirmations": 41,
+              "timestamp": "2026-04-16T08:51:17.402653+00:00",
+              "block_index": null
+            },
+            {
+              "id": "0xa49ebd8444c148e1ba2fcfc2704f49ef",
+              "type": "transfer",
+              "from": "0xRetail001",
+              "to": "0xd307da20110648d19599b1b585fdc4ec",
+              "value": 91.43,
+              "data": {
+                "value": 91.43,
+                "triggered_by": "manual_mine"
+              },
+              "input_data": "0x6b7541213af83a1b3afe0c2a04ae3cad958f0c4fe6e276faf6f08464f9acce41",
+              "gas": 45656,
+              "gas_price": 21.66,
+              "gas_used": 34208,
+              "fee": 0.00098891,
+              "nonce": 622,
+              "status": "confirmed",
+              "confirmations": 24,
+              "timestamp": "2026-04-16T08:51:17.403672+00:00",
+              "block_index": null
+            }
+          ],
+          "transaction_count": 2,
+          "nonce": 73318,
+          "difficulty": 6,
+          "gas_used": 89499,
+          "gas_limit": 15000000,
+          "base_fee": 7.6,
+          "total_fees": 0.001275,
+          "size": 1223,
+          "miner": "0x6f4b6612125fb3a0daecd2799dfd6c9c299424fd",
+          "extra_data": "E4N Testnet v1.0"
+        },
+        {
+          "index": 20,
+          "hash": "00004bf458ced38d742a5b549cf2affcd45362d998ccdfae1ae09fa533d81dbd",
+          "previous_hash": "0000e9ac00f239fb7a7da96cd3134024e938207499e0b15e4467412d55a39e00",
+          "merkle_root": "e56259e1b61fa1d10a68f59a8d3c62b6bc6e5e0690f8f15b91080dfd8e16e4ae",
+          "state_root": "6d0d74ced212b4612835d7496cdb7f6595f04458c801960b4f5b7463c460c54c",
+          "timestamp": "2026-04-16T08:50:17.655563+00:00",
+          "block_type": "demo",
+          "transactions": [
+            {
+              "id": "0x4d6a228fbc7e43c89ffd4e32c9aea3d9",
+              "type": "demo_trade",
+              "from": "0xDemoRetail",
+              "to": "0xDemoInst",
+              "value": 100,
+              "data": {
+                "value": 100,
+                "demo": true
+              },
+              "input_data": "0x2b02eb0d5f6a52bbce8095133d343ae6ee93a7eef77bb651989e1229636418ce",
+              "gas": 96029,
+              "gas_price": 34.26,
+              "gas_used": 85104,
+              "fee": 0.00328995,
+              "nonce": 238,
+              "status": "confirmed",
+              "confirmations": 31,
+              "timestamp": "2026-04-16T08:50:17.654450+00:00",
+              "block_index": null
+            }
+          ],
+          "transaction_count": 1,
+          "nonce": 8910,
+          "difficulty": 6,
+          "gas_used": 96029,
+          "gas_limit": 15000000,
+          "base_fee": 19.91,
+          "total_fees": 0.00329,
+          "size": 693,
+          "miner": "0xf5ca38f748a1d6eaf726b8a42fb575c3c71f1864",
+          "extra_data": "E4N Testnet v1.0"
+        },
         {
           "index": 19,
           "hash": "0000e9ac00f239fb7a7da96cd3134024e938207499e0b15e4467412d55a39e00",
@@ -4895,44 +5152,6 @@
           "nonce": 716450,
           "gas_used": 91920,
           "size": 1524
-        },
-        {
-          "index": 1,
-          "hash": "743f97a1b9648bc2ef851836527e896aee2c96b1ecc27a28939c574c9dcafd1d",
-          "previous_hash": "541ef2980ef84ceaf7a1895f0a14b5d3d2f75a5af0b726c54a1e6ceb9000e12e",
-          "timestamp": "2026-04-16T07:18:48.476518+00:00",
-          "block_type": "standard",
-          "transactions": [
-            {
-              "id": "0x9b5417f6deaf48cb898f612b1c32b265",
-              "type": "transfer",
-              "from": "0x2f76e7fdec0541dc81faa076df41b6f1",
-              "to": "0xe715f2512f534fa5914184416517a642",
-              "data": {
-                "amount": 910
-              },
-              "gas": 79106,
-              "gas_price": 14.44,
-              "status": "confirmed",
-              "timestamp": "2026-04-16T07:18:48.476518+00:00"
-            }
-          ],
-          "transaction_count": 1,
-          "nonce": 971775,
-          "gas_used": 79106,
-          "size": 631
-        },
-        {
-          "index": 0,
-          "hash": "541ef2980ef84ceaf7a1895f0a14b5d3d2f75a5af0b726c54a1e6ceb9000e12e",
-          "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
-          "timestamp": "2026-04-16T07:21:48.465288+00:00",
-          "block_type": "genesis",
-          "transactions": [],
-          "transaction_count": 0,
-          "nonce": 0,
-          "gas_used": 0,
-          "size": 256
         }
       ]
     },
@@ -4940,6 +5159,69 @@
       "success": true,
       "details": "Success",
       "response_data": [
+        {
+          "id": "0xa49ebd8444c148e1ba2fcfc2704f49ef",
+          "type": "transfer",
+          "from": "0xRetail001",
+          "to": "0xd307da20110648d19599b1b585fdc4ec",
+          "value": 91.43,
+          "data": {
+            "value": 91.43,
+            "triggered_by": "manual_mine"
+          },
+          "input_data": "0x6b7541213af83a1b3afe0c2a04ae3cad958f0c4fe6e276faf6f08464f9acce41",
+          "gas": 45656,
+          "gas_price": 21.66,
+          "gas_used": 34208,
+          "fee": 0.00098891,
+          "nonce": 622,
+          "status": "confirmed",
+          "confirmations": 24,
+          "timestamp": "2026-04-16T08:51:17.403672+00:00",
+          "block_index": null
+        },
+        {
+          "id": "0xc8c4eca05231446fb229a75cbc917fc0",
+          "type": "transfer",
+          "from": "0xRetail001",
+          "to": "0x0d8f6e1fb82e4269934510f65f5183bf",
+          "value": 39.25,
+          "data": {
+            "value": 39.25,
+            "triggered_by": "manual_mine"
+          },
+          "input_data": "0x8d27e8a4a28e548be70fd8056179292ee7a15fbfb53c19345f8e2cdb372f1fee",
+          "gas": 43843,
+          "gas_price": 6.52,
+          "gas_used": 41127,
+          "fee": 0.00028586,
+          "nonce": 4991,
+          "status": "confirmed",
+          "confirmations": 41,
+          "timestamp": "2026-04-16T08:51:17.402653+00:00",
+          "block_index": null
+        },
+        {
+          "id": "0x4d6a228fbc7e43c89ffd4e32c9aea3d9",
+          "type": "demo_trade",
+          "from": "0xDemoRetail",
+          "to": "0xDemoInst",
+          "value": 100,
+          "data": {
+            "value": 100,
+            "demo": true
+          },
+          "input_data": "0x2b02eb0d5f6a52bbce8095133d343ae6ee93a7eef77bb651989e1229636418ce",
+          "gas": 96029,
+          "gas_price": 34.26,
+          "gas_used": 85104,
+          "fee": 0.00328995,
+          "nonce": 238,
+          "status": "confirmed",
+          "confirmations": 31,
+          "timestamp": "2026-04-16T08:50:17.654450+00:00",
+          "block_index": null
+        },
         {
           "id": "0x0dd4a46c70424c149d72ea86f16f7077",
           "type": "trade",
@@ -5571,6 +5853,103 @@
           "created_at": "2026-04-16T07:21:48.537518+00:00"
         }
       ]
+    },
+    "E2E Demo Script": {
+      "success": true,
+      "details": "Executed 14 scenarios, 14 passed (100%)",
+      "response_data": {
+        "total_scenarios": 14,
+        "passed": 14,
+        "failed": 0,
+        "success_rate": "100%",
+        "elapsed_seconds": 0.02,
+        "results": [
+          {
+            "scenario": 1,
+            "name": "Retail Login",
+            "success": true,
+            "detail": "Authenticated as retail trader (ID: 69e08124...)"
+          },
+          {
+            "scenario": 2,
+            "name": "Institutional Login",
+            "success": true,
+            "detail": "Authenticated as institutional buyer (ID: 69e08124...)"
+          },
+          {
+            "scenario": 3,
+            "name": "Market Data",
+            "success": true,
+            "detail": "Loaded 6 assets: RICE, WHEAT, KWH, H2O, CARBON, USD"
+          },
+          {
+            "scenario": 4,
+            "name": "Portfolio Check",
+            "success": true,
+            "detail": "Wallet has 4 tokens: RICE:100, H2O:500, USD:10000, CARBON:5"
+          },
+          {
+            "scenario": 5,
+            "name": "Limit Order",
+            "success": true,
+            "detail": "BUY 5 CARBON @ $60.31 (limit order placed)"
+          },
+          {
+            "scenario": 6,
+            "name": "Carbon Credit Issuance",
+            "success": true,
+            "detail": "Issued 500 tCO2e credit 'Demo Solar Farm' (pending verification)"
+          },
+          {
+            "scenario": 7,
+            "name": "Compliance Check",
+            "success": true,
+            "detail": "Verified 5 regional compliance frameworks"
+          },
+          {
+            "scenario": 8,
+            "name": "Prediction Markets",
+            "success": true,
+            "detail": "4 active prediction markets with $170,000 total pool"
+          },
+          {
+            "scenario": 9,
+            "name": "Blockchain Mining",
+            "success": true,
+            "detail": "Mined block #22 with demo transaction (merkle root: ed2bcbef1c5df86d...)"
+          },
+          {
+            "scenario": 10,
+            "name": "Carbon Calculator",
+            "success": true,
+            "detail": "Calculated 35.25 tCO2e for 50-employee company (US region)"
+          },
+          {
+            "scenario": 11,
+            "name": "Concentration Guard",
+            "success": true,
+            "detail": "RICE ownership: 0.01% (cap: 5%, status: CLEAR)"
+          },
+          {
+            "scenario": 12,
+            "name": "Hoarding Blocked",
+            "success": true,
+            "detail": "Scenario: 15% RICE acquisition blocked by ConcentrationGuard (cap: 5%)"
+          },
+          {
+            "scenario": 13,
+            "name": "Quality Haircut",
+            "success": true,
+            "detail": "Scenario: Wheat delivered Grade C \u2014 QualityOracle applied 20% haircut ($5000 -> $4000)"
+          },
+          {
+            "scenario": 14,
+            "name": "Pre-Harvest Finance",
+            "success": true,
+            "detail": "1 active loans totaling $960 (reputation-linked rates)"
+          }
+        ]
+      }
     }
   }
 }

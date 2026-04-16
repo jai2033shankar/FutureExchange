@@ -427,6 +427,20 @@ class E4NAPITester:
             success7, error7, response7 = self.make_request('GET', '/warehouses')
             self.log_result("Get warehouses", success7, error7, response7)
 
+    def test_phase5_demo_features(self):
+        """Test Phase 5 features: E2E Demo Script and WebSocket prices"""
+        print("\n🎯 Testing Phase 5 Demo Features...")
+        
+        # Test E2E demo script - this should execute 14 scenarios
+        success, error, response = self.make_request('POST', '/demo/run-all')
+        if success and response:
+            total_scenarios = response.get('total_scenarios', 0)
+            passed = response.get('passed', 0)
+            success_rate = response.get('success_rate', '0%')
+            self.log_result("E2E Demo Script", success, f"Executed {total_scenarios} scenarios, {passed} passed ({success_rate})", response)
+        else:
+            self.log_result("E2E Demo Script", success, error, response)
+
     def test_trading_endpoints(self):
         """Test trading endpoints"""
         print("\n💹 Testing Trading Endpoints...")
@@ -473,6 +487,7 @@ class E4NAPITester:
         self.test_phase2_features()
         self.test_phase3_contracts()
         self.test_phase4_blockchain()
+        self.test_phase5_demo_features()
         
         # Print summary
         print("\n" + "=" * 60)
