@@ -1,34 +1,72 @@
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+/* E4N Glass Morphism Utilities */
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+.glass-card-active {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  border: 1px solid rgba(0, 242, 152, 0.3);
+  box-shadow: 0 0 24px rgba(0, 242, 152, 0.15);
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+.glass-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.glass-input:focus {
+  border-color: rgba(0, 242, 152, 0.5);
+  box-shadow: 0 0 0 2px rgba(0, 242, 152, 0.15);
 }
 
-.App-link {
-    color: #61dafb;
+.price-up {
+  animation: flash-green 0.5s ease-out;
+}
+.price-down {
+  animation: flash-red 0.5s ease-out;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+@keyframes flash-green {
+  0% { background-color: rgba(0, 242, 152, 0.2); }
+  100% { background-color: transparent; }
 }
+@keyframes flash-red {
+  0% { background-color: rgba(239, 68, 68, 0.2); }
+  100% { background-color: transparent; }
+}
+
+/* Emerald glow button */
+.btn-glow {
+  box-shadow: 0 0 20px rgba(0, 242, 152, 0.3), 0 0 40px rgba(0, 242, 152, 0.1);
+}
+.btn-glow:hover {
+  box-shadow: 0 0 30px rgba(0, 242, 152, 0.4), 0 0 60px rgba(0, 242, 152, 0.15);
+}
+
+/* Stagger animation */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeSlideUp 0.4s ease-out forwards;
+}
+
+.animate-stagger-1 { animation-delay: 0.05s; }
+.animate-stagger-2 { animation-delay: 0.1s; }
+.animate-stagger-3 { animation-delay: 0.15s; }
+.animate-stagger-4 { animation-delay: 0.2s; }
+.animate-stagger-5 { animation-delay: 0.25s; }
+.animate-stagger-6 { animation-delay: 0.3s; }
