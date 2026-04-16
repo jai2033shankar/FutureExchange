@@ -27,6 +27,7 @@ from prediction_engine import predictions_router as pred_v2_router, init_predict
 from pinn_models import pinn_router, init_pinn
 from warehouse_tokenization import wh_token_router, init_wh_tokenization, seed_wh_tokenization
 from evm_bridge import evm_router, init_evm_bridge, seed_evm_bridge
+from portfolio_performance import perf_router, init_performance
 
 # MongoDB connection
 mongo_url = os.environ['MONGO_URL']
@@ -1115,6 +1116,7 @@ app.include_router(pred_v2_router)
 app.include_router(pinn_router)
 app.include_router(wh_token_router)
 app.include_router(evm_router)
+app.include_router(perf_router)
 
 # WebSocket endpoint (on main app, not router)
 from fastapi import WebSocket, WebSocketDisconnect
@@ -1149,6 +1151,7 @@ async def startup_event():
     init_pinn(db, get_current_user)
     init_wh_tokenization(db, get_current_user)
     init_evm_bridge(db, get_current_user)
+    init_performance(db, get_current_user)
     await seed_blockchain_data()
     await seed_contract_scenarios()
     await seed_hardening_data()
