@@ -93,3 +93,15 @@ See /app/memory/test_credentials.md
 - **WebSocket Live Price Feed on Landing**: Hero cards show real-time CARBON/WHEAT/KWH prices with green pulse indicator, flash animations on price changes
 - **Interactive 12-Step Demo**: "Run Live Demo" button executes auth -> portfolio -> trading -> concentration guard -> carbon calculator -> ESG -> blockchain mining -> governance -> compliance -> emails -> AI chat, all hitting real APIs with progress tracking
 - **E2E Demo Script**: POST /api/demo/run-all executes all 14 scenarios (including Scenario 12 Hoarding, 13 Quality Haircut, 14 Pre-Harvest) and returns 100% pass rate
+
+### Phase 3 — Institutional Hardening (April 16, 2026)
+- **Sybil-Resistant Concentration Guard**: ZK-Identity hash linking, entity-level ownership aggregation across all wallets, Scenario 15 seeded
+- **Dynamic Volatility Breakers**: Asset-class tiered (H2O/KWH=3% critical, RICE/WHEAT=7% food, CARBON=15%), volatility-adjusted fees
+- **Decentralized Oracle Bridge**: 2-of-3 multi-sig (IoT sensor + Auditor + Warehouse Node), Chainlink-style 3-source price feed with staleness checks, auto-dispute on grade conflicts (Scenario 16)
+- **Sovereign Insurance Treasury**: 0.5% stability fee seigniorage, $15K seeded, claims processing, solvency ratio tracking
+- **Secondary Debt Markets**: Pre-harvest loan tokens transferable at reputation >= 80, market overview
+- **SAR Auto-Generation**: Wash trading detection (self-trades, round-trips), encrypted reports for regulators
+- **Logistics Custody Handover**: Transporter signatures, chain-of-custody tracking, liability assignment
+- **E2E Demo Script**: 16 scenarios passing at 100% (0.05s execution)
+- **WebSocket Live Prices**: Landing page hero with real-time updates
+- **Interactive Demo Mode**: 12-step live API walkthrough on landing page
