@@ -25,6 +25,7 @@ import MarketGuards from "@/pages/MarketGuards";
 import HardeningDashboard from "@/pages/HardeningDashboard";
 import PINNModels from "@/pages/PINNModels";
 import EVMBridge from "@/pages/EVMBridge";
+import SocialFeed from "@/pages/SocialFeed";
 
 function ProtectedRoute({ children, roles }) {
   const { user, loading } = useAuth();
@@ -77,6 +78,7 @@ function AppRoutes() {
       <Route path="/hardening" element={<ProtectedRoute><Layout><HardeningDashboard /></Layout></ProtectedRoute>} />
       <Route path="/pinn-models" element={<ProtectedRoute><Layout><PINNModels /></Layout></ProtectedRoute>} />
       <Route path="/evm-bridge" element={<ProtectedRoute><Layout><EVMBridge /></Layout></ProtectedRoute>} />
+      <Route path="/social" element={<ProtectedRoute><Layout><SocialFeed /></Layout></ProtectedRoute>} />
       <Route path="/admin" element={<ProtectedRoute roles={["regulator"]}><Layout><AdminDashboard /></Layout></ProtectedRoute>} />
       <Route path="*" element={<Navigate to={user ? "/dashboard" : "/"} replace />} />
     </Routes>

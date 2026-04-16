@@ -16,6 +16,7 @@ const navItems = [
   { path: '/portfolio', i18nKey: 'nav.portfolio', label: 'Portfolio', icon: Wallet, roles: ['retail', 'institutional', 'regulator'] },
   { path: '/compliance', i18nKey: 'nav.compliance', label: 'Compliance', icon: ShieldCheck, roles: ['retail', 'institutional', 'regulator'] },
   { path: '/predictions', i18nKey: 'nav.predictions', label: 'Predictions', icon: TrendingUp, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/social', i18nKey: 'nav.social', label: 'Social Trading', icon: Users, roles: ['retail', 'institutional', 'regulator'] },
   { path: '/blockchain', i18nKey: 'nav.blockchain', label: 'Blockchain', icon: Blocks, roles: ['retail', 'institutional', 'regulator'] },
   { path: '/smart-contracts', i18nKey: 'nav.contracts', label: 'Smart Contracts', icon: FileCode, roles: ['retail', 'institutional', 'regulator'] },
   { path: '/governance', i18nKey: 'nav.governance', label: 'Governance', icon: Vote, roles: ['retail', 'institutional', 'regulator'] },
