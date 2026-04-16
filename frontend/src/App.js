@@ -23,6 +23,7 @@ import EmailInbox from "@/pages/EmailInbox";
 import LandingPage from "@/pages/LandingPage";
 import MarketGuards from "@/pages/MarketGuards";
 import HardeningDashboard from "@/pages/HardeningDashboard";
+import PINNModels from "@/pages/PINNModels";
 
 function ProtectedRoute({ children, roles }) {
   const { user, loading } = useAuth();
@@ -73,6 +74,7 @@ function AppRoutes() {
       <Route path="/emails" element={<ProtectedRoute><Layout><EmailInbox /></Layout></ProtectedRoute>} />
       <Route path="/market-guards" element={<ProtectedRoute><Layout><MarketGuards /></Layout></ProtectedRoute>} />
       <Route path="/hardening" element={<ProtectedRoute><Layout><HardeningDashboard /></Layout></ProtectedRoute>} />
+      <Route path="/pinn-models" element={<ProtectedRoute><Layout><PINNModels /></Layout></ProtectedRoute>} />
       <Route path="/admin" element={<ProtectedRoute roles={["regulator"]}><Layout><AdminDashboard /></Layout></ProtectedRoute>} />
       <Route path="*" element={<Navigate to={user ? "/dashboard" : "/"} replace />} />
     </Routes>
