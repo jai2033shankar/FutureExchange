@@ -380,6 +380,144 @@ async def mark_all_read(user: dict = Depends(_auth)):
     )
     return {"message": "All notifications marked as read"}
 
+# ===== EMAIL NOTIFICATION SIMULATION =====
+EMAIL_TEMPLATES = {
+    "trade_executed": {
+        "subject": "Trade Executed - {asset} {side}",
+        "body": "Your {side} order for {quantity} {asset} at ${price} has been executed. Total: ${total}. Settlement: instant via {token}."
+    },
+    "order_filled": {
+        "subject": "Order Filled - {asset}",
+        "body": "Your limit order for {quantity} {asset} has been filled at ${price}. The trade has been settled atomically."
+    },
+    "kyc_approved": {
+        "subject": "KYC Document Approved",
+        "body": "Your {doc_type} has been reviewed and approved. Your KYC tier has been upgraded. You now have access to higher trading limits."
+    },
+    "kyc_rejected": {
+        "subject": "KYC Document Requires Attention",
+        "body": "Your {doc_type} could not be verified. Please upload a clearer document. Reason: {reason}"
+    },
+    "carbon_credit_verified": {
+        "subject": "Carbon Credit Verified - {project}",
+        "body": "The carbon credit project '{project}' ({quantity} tCO2e) has been verified by the E4N Regulatory Authority. Credits are now available for exchange."
+    },
+    "carbon_credit_retired": {
+        "subject": "Carbon Credits Retired - Offset Confirmation",
+        "body": "You have successfully retired {quantity} tCO2e of carbon credits from project '{project}'. Certificate ID: {cert_id}"
+    },
+    "compliance_alert": {
+        "subject": "Compliance Alert - {region}",
+        "body": "A new compliance regulation has been updated for the {region} region. Please review the changes in your compliance dashboard."
+    },
+    "security_mfa_enabled": {
+        "subject": "Two-Factor Authentication Enabled",
+        "body": "MFA has been successfully enabled on your E4N account. Your account is now more secure."
+    },
+    "welcome": {
+        "subject": "Welcome to E4N Exchange",
+        "body": "Welcome to E4N Exchange for Necessities! Your account has been created. Start by completing your KYC verification to unlock full trading capabilities."
+    },
+    "large_trade_alert": {
+        "subject": "Large Trade Alert - {asset}",
+        "body": "A trade exceeding your alert threshold has been detected: {quantity} {asset} at ${price}. Total value: ${total}."
+    },
+    "settlement_complete": {
+        "subject": "Settlement Complete - {asset}",
+        "body": "Atomic settlement for {quantity} {asset} has been completed. Block: #{block_number}, TX: {tx_hash}."
+    },
+}
+
+async def _create_email(user_id: str, email_to: str, template_key: str, params: dict = None):
+    """Simulate sending an email notification"""
+    template = EMAIL_TEMPLATES.get(template_key, {"subject": template_key, "body": ""})
+    params = params or {}
+    try:
+        subject = template["subject"].format(**params) if params else template["subject"]
+        body = template["body"].format(**params) if params else template["body"]
+    except KeyError:
+        subject = template["subject"]
+        body = template["body"]
+
+    email_doc = {
+        "id": str(uuid.uuid4()),
+        "user_id": user_id,
+        "to": email_to,
+        "from": "noreply@e4n.exchange",
+        "subject": subject,
+        "body": body,
+        "template": template_key,
+        "params": {k: str(v) for k, v in params.items()} if params else {},
+        "status": "delivered",  # Simulated - always delivered
+        "read": False,
+        "starred": False,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    }
+    await db.emails.insert_one(email_doc)
+    # Also create an in-app notification
+    await _create_notification(user_id, "email", f"Email: {subject}")
+    return email_doc
+
+@features_router.get("/emails")
+async def get_emails(user: dict = Depends(_auth), folder: str = "inbox"):
+    query = {"user_id": user["_id"]}
+    if folder == "unread":
+        query["read"] = False
+    elif folder == "starred":
+        query["starred"] = True
+    emails = await db.emails.find(query, {"_id": 0}).sort("created_at", -1).to_list(50)
+    unread_count = await db.emails.count_documents({"user_id": user["_id"], "read": False})
+    total_count = await db.emails.count_documents({"user_id": user["_id"]})
+    return {"emails": emails, "unread_count": unread_count, "total_count": total_count}
+
+@features_router.get("/emails/{email_id}")
+async def get_email(email_id: str, user: dict = Depends(_auth)):
+    email = await db.emails.find_one({"id": email_id, "user_id": user["_id"]}, {"_id": 0})
+    if not email:
+        raise HTTPException(status_code=404, detail="Email not found")
+    if not email.get("read"):
+        await db.emails.update_one({"id": email_id}, {"$set": {"read": True}})
+        email["read"] = True
+    return email
+
+@features_router.put("/emails/{email_id}/star")
+async def toggle_star_email(email_id: str, user: dict = Depends(_auth)):
+    email = await db.emails.find_one({"id": email_id, "user_id": user["_id"]})
+    if not email:
+        raise HTTPException(status_code=404, detail="Email not found")
+    new_starred = not email.get("starred", False)
+    await db.emails.update_one({"id": email_id}, {"$set": {"starred": new_starred}})
+    return {"starred": new_starred}
+
+@features_router.put("/emails/{email_id}/read")
+async def mark_email_read(email_id: str, user: dict = Depends(_auth)):
+    await db.emails.update_one({"id": email_id, "user_id": user["_id"]}, {"$set": {"read": True}})
+    return {"message": "Marked as read"}
+
+@features_router.post("/emails/mark-all-read")
+async def mark_all_emails_read(user: dict = Depends(_auth)):
+    await db.emails.update_many({"user_id": user["_id"], "read": False}, {"$set": {"read": True}})
+    return {"message": "All emails marked as read"}
+
+@features_router.post("/emails/test-send")
+async def test_send_email(user: dict = Depends(_auth)):
+    """Send test emails to demonstrate the email notification system"""
+    emails_sent = []
+    test_events = [
+        ("welcome", {}),
+        ("trade_executed", {"asset": "CARBON", "side": "BUY", "quantity": "100", "price": "45.50", "total": "4,550.00", "token": "USD"}),
+        ("carbon_credit_verified", {"project": "Amazon Rainforest Conservation", "quantity": "50,000"}),
+        ("compliance_alert", {"region": "EU"}),
+        ("settlement_complete", {"asset": "WHEAT", "quantity": "1,000", "block_number": "42", "tx_hash": "0xabc...def"}),
+    ]
+    for template_key, params in test_events:
+        email = await _create_email(user["_id"], user.get("email", ""), template_key, params)
+        email.pop("_id", None)
+        emails_sent.append({"subject": email["subject"], "template": template_key})
+    return {"message": f"Sent {len(emails_sent)} test emails", "emails": emails_sent}
+
+
+
 # ===== CARBON OFFSET CALCULATOR =====
 EMISSION_FACTORS = {
     "US": {"electricity": 0.42, "gas": 5.3, "vehicle": 0.21, "flight": 90, "waste": 0.5},

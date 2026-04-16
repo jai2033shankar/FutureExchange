@@ -4,7 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import {
   LayoutDashboard, ArrowLeftRight, Leaf, Wallet, ShieldCheck,
   TrendingUp, Settings, LogOut, X, Users, Blocks, Vote, FileCode,
-  Warehouse, Calculator, FileCheck
+  Warehouse, Calculator, FileCheck, Mail
 } from 'lucide-react';
 
 const navItems = [
@@ -20,6 +20,7 @@ const navItems = [
   { path: '/governance', label: 'Governance', icon: Vote, roles: ['retail', 'institutional', 'regulator'] },
   { path: '/warehouses', label: 'Warehouses', icon: Warehouse, roles: ['retail', 'institutional', 'regulator'] },
   { path: '/kyc', label: 'KYC Verification', icon: FileCheck, roles: ['retail', 'institutional', 'regulator'] },
+  { path: '/emails', label: 'Email Alerts', icon: Mail, roles: ['retail', 'institutional', 'regulator'] },
   { path: '/settings', label: 'Settings', icon: Settings, roles: ['retail', 'institutional', 'regulator'] },
   { path: '/admin', label: 'Regulator', icon: Users, roles: ['regulator'] },
 ];

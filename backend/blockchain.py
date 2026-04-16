@@ -65,50 +65,121 @@ class SensorData(BaseModel):
 def compute_hash(data: str) -> str:
     return hashlib.sha256(data.encode()).hexdigest()
 
+def compute_merkle_root(tx_hashes: list) -> str:
+    """Compute merkle root from transaction hashes"""
+    if not tx_hashes:
+        return compute_hash("empty")
+    if len(tx_hashes) == 1:
+        return tx_hashes[0]
+    # Pad to even length
+    if len(tx_hashes) % 2 == 1:
+        tx_hashes.append(tx_hashes[-1])
+    new_level = []
+    for i in range(0, len(tx_hashes), 2):
+        new_level.append(compute_hash(tx_hashes[i] + tx_hashes[i + 1]))
+    return compute_merkle_root(new_level)
+
+async def get_network_difficulty():
+    """Simulated network difficulty based on block count"""
+    count = await db.blockchain_blocks.count_documents({})
+    base = 4
+    return min(base + count // 10, 8)
+
+async def simulate_mining(block_data_str: str, difficulty: int) -> tuple:
+    """Simulate proof-of-work mining (simplified)"""
+    target = "0" * difficulty
+    nonce = 0
+    max_attempts = 100000
+    while nonce < max_attempts:
+        attempt = compute_hash(block_data_str + str(nonce))
+        if attempt[:difficulty] == target:
+            return nonce, attempt
+        nonce += 1
+    # Fallback - always produce a block in simulation
+    return nonce, compute_hash(block_data_str + str(nonce))
+
 async def create_block(transactions: list, block_type: str = "standard"):
     last_block = await db.blockchain_blocks.find_one({}, sort=[("index", -1)])
     index = (last_block["index"] + 1) if last_block else 0
     previous_hash = last_block["hash"] if last_block else "0" * 64
     timestamp = datetime.now(timezone.utc).isoformat()
+    difficulty = await get_network_difficulty()
+
+    # Compute merkle root
+    tx_hashes = [compute_hash(t.get("id", str(i))) for i, t in enumerate(transactions)]
+    merkle_root = compute_merkle_root(tx_hashes) if tx_hashes else compute_hash("empty")
+
+    # Compute state root (simplified - hash of all account balances)
+    state_root = compute_hash(f"state_{index}_{timestamp}")
 
     block_data = json.dumps({
         "index": index,
-        "transactions": [t.get("id", "") for t in transactions],
+        "merkle_root": merkle_root,
         "previous_hash": previous_hash,
         "timestamp": timestamp,
+        "difficulty": difficulty,
     }, sort_keys=True)
+
+    # Simulate mining
+    nonce, block_hash = await simulate_mining(block_data, min(difficulty, 4))
+
+    total_gas = sum(t.get("gas", 21000) for t in transactions)
+    total_fees = sum(t.get("gas", 21000) * t.get("gas_price", 10) / 1e9 for t in transactions)
 
     block = {
         "index": index,
-        "hash": compute_hash(block_data),
+        "hash": block_hash,
         "previous_hash": previous_hash,
+        "merkle_root": merkle_root,
+        "state_root": state_root,
         "timestamp": timestamp,
         "block_type": block_type,
         "transactions": transactions,
         "transaction_count": len(transactions),
-        "nonce": random.randint(0, 999999),
-        "gas_used": random.randint(21000, 150000),
-        "size": len(block_data),
+        "nonce": nonce,
+        "difficulty": difficulty,
+        "gas_used": total_gas,
+        "gas_limit": 15000000,
+        "base_fee": round(random.uniform(5, 25), 2),
+        "total_fees": round(total_fees, 6),
+        "size": len(block_data) + sum(len(json.dumps(t, default=str)) for t in transactions),
+        "miner": f"0x{hashlib.sha256(str(index).encode()).hexdigest()[:40]}",
+        "extra_data": "E4N Testnet v1.0",
     }
     await db.blockchain_blocks.insert_one(block)
     block.pop("_id", None)
     return block
 
 async def create_transaction(tx_type: str, from_addr: str, to_addr: str, data: dict):
+    gas = random.randint(21000, 100000)
+    gas_price = round(random.uniform(5, 50), 2)
     tx = {
         "id": f"0x{uuid.uuid4().hex}",
         "type": tx_type,
         "from": from_addr,
         "to": to_addr,
+        "value": data.get("value", 0),
         "data": data,
-        "gas": random.randint(21000, 100000),
-        "gas_price": round(random.uniform(1, 50), 2),
+        "input_data": f"0x{hashlib.sha256(json.dumps(data, default=str).encode()).hexdigest()[:64]}",
+        "gas": gas,
+        "gas_price": gas_price,
+        "gas_used": int(gas * random.uniform(0.6, 1.0)),
+        "fee": round(gas * gas_price / 1e9, 8),
+        "nonce": random.randint(0, 9999),
         "status": "confirmed",
+        "confirmations": random.randint(1, 50),
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "block_index": None,
     }
     await db.blockchain_transactions.insert_one(tx)
     tx.pop("_id", None)
+
+    # Add to mempool briefly
+    await db.mempool.insert_one({
+        "tx_id": tx["id"], "status": "confirmed",
+        "added_at": tx["timestamp"], "confirmed_at": tx["timestamp"],
+    })
+
     return tx
 
 @blockchain_router.get("/blockchain/stats")
@@ -119,6 +190,16 @@ async def get_blockchain_stats():
     latest_block = await db.blockchain_blocks.find_one({}, {"_id": 0}, sort=[("index", -1)])
     if latest_block and "transactions" in latest_block:
         latest_block["transactions"] = [{k: v for k, v in tx.items() if k != "_id"} for tx in latest_block["transactions"]]
+    mempool_size = await db.mempool.count_documents({"status": "pending"})
+    difficulty = await get_network_difficulty()
+
+    # Calculate avg gas price from recent txs
+    recent_txs = await db.blockchain_transactions.find({}, {"_id": 0, "gas_price": 1}).sort("timestamp", -1).to_list(50)
+    avg_gas = round(sum(t.get("gas_price", 10) for t in recent_txs) / max(len(recent_txs), 1), 2)
+
+    # Calculate TPS (transactions per second) estimate
+    tps = round(total_txs / max(total_blocks * 3, 1), 2)  # ~3s block time
+
     return {
         "total_blocks": total_blocks,
         "total_transactions": total_txs,
@@ -128,6 +209,13 @@ async def get_blockchain_stats():
         "consensus": "Proof of Authority (Simulated)",
         "block_time": "3 seconds",
         "chain_id": 4444,
+        "difficulty": difficulty,
+        "mempool_size": mempool_size,
+        "avg_gas_price": avg_gas,
+        "tps": tps,
+        "gas_limit": 15000000,
+        "protocol_version": "1.0.0",
+        "network_hashrate": f"{random.randint(100, 500)} MH/s",
     }
 
 @blockchain_router.get("/blockchain/blocks")
@@ -151,6 +239,86 @@ async def get_block(index: int):
 async def get_transactions(limit: int = 30):
     txs = await db.blockchain_transactions.find({}, {"_id": 0}).sort("timestamp", -1).to_list(limit)
     return txs
+
+@blockchain_router.get("/blockchain/mempool")
+async def get_mempool():
+    """Get pending transactions in the mempool"""
+    # Simulate some pending transactions
+    pending = []
+    for _ in range(random.randint(2, 8)):
+        pending.append({
+            "tx_id": f"0x{uuid.uuid4().hex}",
+            "type": random.choice(["transfer", "trade", "contract_call", "carbon_retirement"]),
+            "from": f"0x{uuid.uuid4().hex[:40]}",
+            "to": f"0x{uuid.uuid4().hex[:40]}",
+            "gas": random.randint(21000, 100000),
+            "gas_price": round(random.uniform(5, 60), 2),
+            "value": round(random.uniform(0, 1000), 4),
+            "status": "pending",
+            "age_seconds": random.randint(1, 30),
+            "added_at": datetime.now(timezone.utc).isoformat(),
+        })
+    return {"pending_count": len(pending), "transactions": pending}
+
+@blockchain_router.get("/blockchain/gas-oracle")
+async def get_gas_oracle():
+    """Get current gas price estimates"""
+    recent_txs = await db.blockchain_transactions.find({}, {"_id": 0, "gas_price": 1}).sort("timestamp", -1).to_list(100)
+    prices = [t.get("gas_price", 10) for t in recent_txs] or [10]
+    prices.sort()
+    return {
+        "slow": {"price": round(prices[int(len(prices) * 0.1)], 2), "estimated_time": "30 seconds"},
+        "standard": {"price": round(prices[int(len(prices) * 0.5)], 2), "estimated_time": "15 seconds"},
+        "fast": {"price": round(prices[int(len(prices) * 0.9)], 2), "estimated_time": "6 seconds"},
+        "instant": {"price": round(prices[-1] * 1.2, 2), "estimated_time": "3 seconds"},
+        "base_fee": round(random.uniform(5, 15), 2),
+        "block_utilization": f"{random.randint(40, 85)}%",
+    }
+
+@blockchain_router.get("/blockchain/transaction/{tx_id}")
+async def get_transaction_detail(tx_id: str):
+    """Get detailed transaction info"""
+    tx = await db.blockchain_transactions.find_one({"id": tx_id}, {"_id": 0})
+    if not tx:
+        raise HTTPException(status_code=404, detail="Transaction not found")
+    # Find which block contains this tx
+    block = await db.blockchain_blocks.find_one(
+        {"transactions.id": tx_id}, {"_id": 0, "index": 1, "hash": 1, "timestamp": 1}
+    )
+    if block:
+        tx["block_number"] = block["index"]
+        tx["block_hash"] = block["hash"]
+    return tx
+
+@blockchain_router.post("/blockchain/mine")
+async def mine_block(user: dict = Depends(_auth)):
+    """Manually trigger mining of pending transactions"""
+    # Create a simulated block with random transactions
+    txs = []
+    for _ in range(random.randint(1, 5)):
+        tx = await create_transaction(
+            random.choice(["transfer", "trade", "settlement"]),
+            user.get("wallet_address", "0x0"),
+            f"0x{uuid.uuid4().hex[:40]}",
+            {"value": round(random.uniform(1, 100), 2), "triggered_by": "manual_mine"}
+        )
+        txs.append(tx)
+    block = await create_block(txs, "mined")
+    # Clean up _id from transactions in response
+    if "transactions" in block:
+        block["transactions"] = [{k: v for k, v in tx.items() if k != "_id"} for tx in block["transactions"]]
+    return {"message": f"Block #{block['index']} mined with {len(txs)} transactions", "block": block}
+
+@blockchain_router.get("/blockchain/validators")
+async def get_validators():
+    """Get list of network validators (simulated PoA)"""
+    validators = [
+        {"address": f"0x{hashlib.sha256(f'validator_{i}'.encode()).hexdigest()[:40]}", "name": name, "stake": round(random.uniform(10000, 100000), 2), "blocks_validated": random.randint(100, 5000), "uptime": f"{random.uniform(98, 100):.2f}%", "status": "active"}
+        for i, name in enumerate(["E4N Foundation", "Carbon Registry Node", "Settlement Gateway", "Compliance Oracle", "IoT Bridge"])
+    ]
+    return validators
+
+
 
 # ===== SMART CONTRACTS =====
 CONTRACT_TEMPLATES = {

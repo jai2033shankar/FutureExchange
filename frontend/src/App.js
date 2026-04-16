@@ -19,6 +19,7 @@ import DAOGovernance from "@/pages/DAOGovernance";
 import SmartContracts from "@/pages/SmartContracts";
 import IoTWarehouse from "@/pages/IoTWarehouse";
 import SettingsPage from "@/pages/SettingsPage";
+import EmailInbox from "@/pages/EmailInbox";
 
 function ProtectedRoute({ children, roles }) {
   const { user, loading } = useAuth();
@@ -65,6 +66,7 @@ function AppRoutes() {
       <Route path="/smart-contracts" element={<ProtectedRoute><Layout><SmartContracts /></Layout></ProtectedRoute>} />
       <Route path="/warehouses" element={<ProtectedRoute><Layout><IoTWarehouse /></Layout></ProtectedRoute>} />
       <Route path="/settings" element={<ProtectedRoute><Layout><SettingsPage /></Layout></ProtectedRoute>} />
+      <Route path="/emails" element={<ProtectedRoute><Layout><EmailInbox /></Layout></ProtectedRoute>} />
       <Route path="/admin" element={<ProtectedRoute roles={["regulator"]}><Layout><AdminDashboard /></Layout></ProtectedRoute>} />
       <Route path="*" element={<Navigate to={user ? "/dashboard" : "/auth"} replace />} />
     </Routes>

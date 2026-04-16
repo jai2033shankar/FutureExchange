@@ -5,15 +5,17 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-import { ArrowUpRight, ArrowDownRight, ShoppingCart, X } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { ArrowUpRight, ArrowDownRight, ShoppingCart, X, CandlestickChart as CandleIcon } from 'lucide-react';
 import { toast } from 'sonner';
+import CandlestickChart from '@/components/CandlestickChart';
 
 export default function Trading() {
   const { apiCall } = useAuth();
   const [assets, setAssets] = useState([]);
   const [selectedAsset, setSelectedAsset] = useState('CARBON');
   const [priceHistory, setPriceHistory] = useState([]);
+  const [candlestickData, setCandlestickData] = useState([]);
   const [orderBook, setOrderBook] = useState({ bids: [], asks: [] });
   const [orders, setOrders] = useState([]);
   const [recentTrades, setRecentTrades] = useState([]);
@@ -38,13 +40,15 @@ export default function Trading() {
 
   const loadAssetData = async () => {
     try {
-      const [history, book, trades, myOrders] = await Promise.all([
+      const [history, book, trades, myOrders, candles] = await Promise.all([
         apiCall('get', `/assets/${selectedAsset}/price-history?days=30`),
         apiCall('get', `/orders/book/${selectedAsset}`),
         apiCall('get', `/trades/recent?symbol=${selectedAsset}&limit=15`),
         apiCall('get', '/orders'),
+        apiCall('get', `/assets/${selectedAsset}/candlestick?limit=60`),
       ]);
       setPriceHistory(history);
+      setCandlestickData(candles);
       setOrderBook(book);
       setRecentTrades(trades);
       setOrders(myOrders);
@@ -149,19 +153,21 @@ export default function Trading() {
               </div>
             </div>
             <div className="h-64 md:h-80">
+              <CandlestickChart data={candlestickData} height={280} />
+            </div>
+            {/* Volume chart beneath */}
+            <div className="h-16 mt-2">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={priceHistory}>
-                  <defs>
-                    <linearGradient id="tradingGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#00F298" stopOpacity={0.15} />
-                      <stop offset="95%" stopColor="#00F298" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <XAxis dataKey="date" tickFormatter={d => new Date(d).toLocaleDateString('en', { month: 'short', day: 'numeric' })} tick={{ fill: '#64748B', fontSize: 10 }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fill: '#64748B', fontSize: 10 }} axisLine={false} tickLine={false} domain={['auto', 'auto']} />
-                  <Tooltip contentStyle={{ background: '#0B111A', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', fontSize: '12px' }} />
-                  <Area type="monotone" dataKey="price" stroke="#00F298" fill="url(#tradingGrad)" strokeWidth={2} />
-                </AreaChart>
+                <BarChart data={candlestickData.slice(-30)}>
+                  <XAxis dataKey="date" tick={false} axisLine={false} tickLine={false} />
+                  <YAxis tick={false} axisLine={false} tickLine={false} />
+                  <Tooltip contentStyle={{ background: '#0B111A', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', fontSize: '11px' }} formatter={v => [v.toLocaleString(), 'Volume']} labelFormatter={() => ''} />
+                  <Bar dataKey="volume" radius={[2, 2, 0, 0]}>
+                    {candlestickData.slice(-30).map((entry, i) => (
+                      <rect key={i} fill={entry.close >= entry.open ? 'rgba(0,242,152,0.3)' : 'rgba(239,68,68,0.3)'} />
+                    ))}
+                  </Bar>
+                </BarChart>
               </ResponsiveContainer>
             </div>
           </motion.div>
